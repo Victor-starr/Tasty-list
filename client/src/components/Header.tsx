@@ -2,6 +2,8 @@ import { Link } from "react-router";
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 import useThemeToggle from "../hooks/useThemeToggle";
+import { MdSunny } from "react-icons/md";
+import { IoMdMoon } from "react-icons/io";
 
 export default function Header() {
   const { user } = useContext(AuthContext);
@@ -19,9 +21,6 @@ export default function Header() {
           </Link>
         </div>
         <ul className="flex row gap-4 font-bold text-lg items-center">
-          <li>
-            <Link to="/">Home</Link>
-          </li>
           <li>
             <Link to="/about">About</Link>
           </li>
@@ -47,15 +46,17 @@ export default function Header() {
               </li>
             </>
           )}
-          <li>
-            <button
-              onClick={toggleTheme}
-              className="p-2 rounded-full focus:outline-none"
-            >
-              {theme === "light" ? "🌚" : "☀️"}
-            </button>
-          </li>
         </ul>
+        <button
+          onClick={toggleTheme}
+          className="p-2 rounded-full focus:outline-none"
+        >
+          {theme === "light" ? (
+            <IoMdMoon className="text-2xl" />
+          ) : (
+            <MdSunny className="text-2xl" />
+          )}
+        </button>
       </nav>
     </header>
   );
