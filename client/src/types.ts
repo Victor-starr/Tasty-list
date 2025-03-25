@@ -1,4 +1,5 @@
 export interface UserDataFormType {
+  _id?: string;
   username?: string;
   email: string;
   password: string;
@@ -6,7 +7,7 @@ export interface UserDataFormType {
 }
 
 export interface ProductType {
-  _id?: string;
+  _id: string;
   title: string;
   ingredients: string;
   instructions: string;

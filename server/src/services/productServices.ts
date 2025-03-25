@@ -1,4 +1,4 @@
-import { ObjectId } from "mongoose";
+import { ObjectId, Types } from "mongoose";
 import Product from "../models/Product";
 import { ProductType } from "../types";
 
@@ -35,11 +35,27 @@ const remove = async (productId: ObjectId, userId: ObjectId) => {
   return Product.findByIdAndDelete(productId);
 };
 
+const recommend = async (productID: ObjectId, userId: string) => {
+  const product = await Product.findById(productID);
+  if (!product) {
+    throw new Error("Product not found");
+  }
+  if (product.owner && product.owner.toString() === userId) {
+    throw new Error("Cannot recommend own offer!");
+  }
+  if (product.recommendList.some((id) => id.toString() === userId)) {
+    throw new Error("Already in recommended list!");
+  }
+  product.recommendList.push(new Types.ObjectId(userId));
+  return product.save();
+};
+
 const productServices = {
   getAll,
   getLastThree,
   getOneProduct,
   createProduct,
+  recommend,
   update,
   remove,
 };

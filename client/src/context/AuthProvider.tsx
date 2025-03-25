@@ -22,7 +22,7 @@ const AuthProvider = ({ children }: { children: ReactNode }): JSX.Element => {
       }
     };
     checkAuth();
-  }, [user]);
+  }, []); // Remove user from dependency array
 
   const login = async (userData: UserDataFormType): Promise<void> => {
     if (
