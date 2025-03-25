@@ -12,7 +12,7 @@ export interface ProductType {
   instructions: string;
   description: string;
   image: string;
-  recommendList?: string[]; // Array of User IDs
+  recommendList: string[]; // Array of User IDs
   owner: string; // User ID
 }
 
