@@ -10,7 +10,7 @@ export default function Header() {
   const { theme, toggleTheme } = useThemeToggle();
 
   return (
-    <header className="bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100 p-6 fixed w-full z-10 shadow-md transition-colors duration-300">
+    <header className="bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100 p-6 w-full shadow-md">
       <nav className="container mx-auto flex justify-between items-center">
         <div className="text-2xl font-bold">
           <Link

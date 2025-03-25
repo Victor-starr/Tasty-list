@@ -6,12 +6,14 @@ export interface UserDataFormType {
 }
 
 export interface ProductType {
-  id: number;
-  name: string;
-  price: number;
+  _id?: string;
+  title: string;
+  ingredients: string;
+  instructions: string;
   description: string;
   image: string;
-  category: string;
+  recommendList?: string[]; // Array of User IDs
+  owner: string; // User ID
 }
 
 export type ServerErrorMessage = {

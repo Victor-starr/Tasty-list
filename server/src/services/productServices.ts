@@ -4,6 +4,8 @@ import { ProductType } from "../types";
 
 const getAll = async () => Product.find({});
 
+const getLastThree = async () => Product.find({}).sort({ _id: -1 }).limit(3);
+
 const getOneProduct = async (id: ObjectId) => Product.findById(id);
 
 const createProduct = async (productData: ProductType, userID: ObjectId) =>
@@ -35,6 +37,7 @@ const remove = async (productId: ObjectId, userId: ObjectId) => {
 
 const productServices = {
   getAll,
+  getLastThree,
   getOneProduct,
   createProduct,
   update,

@@ -5,3 +5,10 @@
 body {
   @apply m-0 p-0 h-full w-full bg-gray-100 dark:bg-gray-900;
 }
+#root {
+  @apply h-full w-full flex flex-col;
+}
+
+.h1-title {
+  @apply pb-6 text-black dark:text-white font-bold text-3xl sm:text-4xl lg:text-5xl;
+}
