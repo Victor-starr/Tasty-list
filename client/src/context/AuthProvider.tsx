@@ -7,20 +7,21 @@ const AuthProvider = ({ children }: { children: ReactNode }): JSX.Element => {
   const [user, setUser] = useState<UserDataFormType | null>(null);
   const [authChanged, setAuthChanged] = useState(false); // State to trigger re-renders
 
-  useEffect(() => {
-    const checkAuth = async () => {
-      try {
-        const res = await axiosInstance.get("/auth/check");
-        if (res.data.user) {
-          setUser(res.data.user);
-        } else {
-          setUser(null);
-        }
-      } catch (error) {
-        console.error("Failed to check auth:", error);
+  const checkAuth = async () => {
+    try {
+      const res = await axiosInstance.get("/auth/check");
+      if (res.data.user) {
+        setUser(res.data.user);
+      } else {
         setUser(null);
       }
-    };
+    } catch (error) {
+      console.error("Failed to check auth:", error);
+      setUser(null);
+    }
+  };
+
+  useEffect(() => {
     checkAuth();
   }, [authChanged]); // Trigger useEffect when authChanged toggles
 

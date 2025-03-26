@@ -89,7 +89,7 @@ function generateToken(user: {
   username: string;
 }): string {
   const payload: JwtPayload = {
-    id: user._id,
+    _id: user._id,
     email: user.email,
     username: user.username,
   };

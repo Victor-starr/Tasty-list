@@ -3,6 +3,7 @@ import { ProductType } from "../types";
 import { FaEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import { MdFavorite } from "react-icons/md";
+import { FaRegThumbsUp } from "react-icons/fa";
 const RecipesDetails = ({
   props,
   isOwner,
@@ -15,7 +16,11 @@ const RecipesDetails = ({
   isRecommended: boolean;
 }) => {
   return (
-    <div className="w-[70vw] max-w-[90vw] min-h-[32.5rem] bg-white rounded-md shadow-md p-5 dark:bg-gray-800 flex flex-col md:flex-row relative gap-4 overflow-hidden md:overflow-visible">
+    <div className="w-[70vw] max-w-[90vw] min-h-[32.5rem] bg-white rounded-md shadow-md p-5 dark:bg-gray-800 flex flex-col md:flex-row relative gap-4 overflow-hidden md:overflow-visible relative">
+      <div className="text-xl font-bold text-white bg-sky-500 py-2 px-4 rounded-md flex flex-row items-center justify-center absolute top-6 left-6 shadow-md border-1 border-white">
+        <MdFavorite className="text-2xl text-center" />
+        {props.recommendList.length}
+      </div>
       <img
         className="w-full md:w-[50%] max-h-[500px] object-cover rounded-md mb-4 md:mb-0"
         src={props.image}
@@ -38,16 +43,7 @@ const RecipesDetails = ({
       <div className="flex flex-wrap md:flex-nowrap gap-5 items-center justify-center md:absolute bottom-8 right-10">
         {isUser && (
           <>
-            {!isRecommended && (
-              <Link
-                to={`/recipes/${props._id}`}
-                className="text-xl font-bold text-white bg-sky-500 hover:bg-yellow-500 py-2 px-4 rounded-md flex flex-row items-center justify-center gap-2 group"
-              >
-                <MdFavorite className="text-2xl text-center  group-hover:mb-1" />
-                Recommend
-              </Link>
-            )}
-            {isOwner && (
+            {isOwner ? (
               <>
                 <Link
                   className="text-xl font-bold text-white bg-sky-500 hover:bg-green-600 py-2 px-4 rounded-md flex flex-row items-center justify-center gap-2 group"
@@ -64,6 +60,16 @@ const RecipesDetails = ({
                   Delete
                 </Link>
               </>
+            ) : (
+              !isRecommended && (
+                <Link
+                  to={`/recipes/${props._id}`}
+                  className="text-xl font-bold text-white bg-sky-500 hover:bg-yellow-500 py-2 px-4 rounded-md flex flex-row items-center justify-center gap-2 group"
+                >
+                  <FaRegThumbsUp className="text-1xl text-center  group-hover:mb-1" />
+                  Recommend
+                </Link>
+              )
             )}
           </>
         )}

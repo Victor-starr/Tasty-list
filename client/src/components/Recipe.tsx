@@ -3,7 +3,7 @@ import { FaReadme } from "react-icons/fa6";
 import { ProductType } from "../types";
 const RecipesDefault = (props: ProductType) => {
   return (
-    <div className="max-w-[400px] h-[32.5rem] bg-white rounded-md shadow-md p-5 dark:bg-gray-800 flex flex-col items-center relative">
+    <div className="max-w-[400px] h-[32.5rem] bg-slate-100 rounded-md shadow-md p-5 dark:bg-gray-800 flex flex-col items-center relative">
       <img
         className="w-full h-60 object-cover rounded-md mb-4"
         src={props.image}

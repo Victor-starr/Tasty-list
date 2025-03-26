@@ -1,18 +1,24 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router";
 import axiosInstance from "../../axiosInstance";
 import { ProductType } from "../../types";
 import RecipesDetails from "../../components/RecipesDetails";
 import { IoMdWarning } from "react-icons/io";
+import { AuthContext } from "../../context/AuthContext";
 
 export default function Details() {
   const [recipe, setRecipes] = useState<ProductType>();
   const [error, setError] = useState<string | null>(null);
   const { id } = useParams();
+  const { user } = useContext(AuthContext);
   // TODO - implement user and owner logic here
-  const isUser = true;
-  const isOwner = true;
-  const isRecommed = false;
+  const isUser = user ? true : false;
+  const isOwner = recipe?.owner.toString() === user?._id;
+  const isRecommed = recipe?.recommendList.some(
+    (id) => id.toString() === user?._id
+  )
+    ? true
+    : false;
 
   useEffect(() => {
     const fetchRecipe = async () => {

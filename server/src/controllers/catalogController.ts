@@ -36,7 +36,7 @@ catalogController.get("/:id", async (req, res) => {
 });
 
 catalogController.post("/:id/recommend", isAuth, async (req, res) => {
-  const productId = req.params.id;
+  const productId = req.params._id;
   const { userId }: { userId: string } = req.body;
   try {
     await productServices.recommend(productId, userId);
