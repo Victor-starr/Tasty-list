@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ProductType } from "../../types";
+import { ProductType, ServerErrorMessage } from "../../types";
 import axiosInstance from "../../axiosInstance";
 import { useNavigate } from "react-router";
 export default function Create() {
@@ -22,13 +22,11 @@ export default function Create() {
       await axiosInstance.post("/catalog/create", productData);
       navigate("/recipes");
     } catch (error) {
-      console.log(error);
-      if (error instanceof Error) {
-        setErrorMsg(error.message);
-        setTimeout(() => {
-          setErrorMsg("");
-        }, 4000);
-      }
+      const serverError = error as ServerErrorMessage;
+      setErrorMsg(serverError.response.data.message);
+      setTimeout(() => {
+        setErrorMsg("");
+      }, 4000);
     }
   };
 
