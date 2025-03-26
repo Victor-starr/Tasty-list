@@ -13,9 +13,11 @@ export interface ProductType {
   instructions: string;
   description: string;
   image: string;
-  recommendList: string[]; // Array of User IDs
-  owner: string; // User ID
 }
+export type FullProductType = ProductType & {
+  recommendList: string[];
+  owner: string;
+};
 
 export type ServerErrorMessage = {
   response: {

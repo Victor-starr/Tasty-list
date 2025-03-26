@@ -3,6 +3,7 @@ import { UserDataFormType } from "../types";
 
 interface AuthContextType {
   user: UserDataFormType | null;
+  loading: boolean;
   login: (userData: UserDataFormType) => Promise<void>;
   register: (userData: UserDataFormType) => void;
   logout: () => Promise<void>;
@@ -10,6 +11,7 @@ interface AuthContextType {
 
 const defaultAuthContext: AuthContextType = {
   user: null,
+  loading: true,
   login: async () => {},
   register: async () => {},
   logout: async () => {},

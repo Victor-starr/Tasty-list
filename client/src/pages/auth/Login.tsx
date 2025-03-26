@@ -27,7 +27,7 @@ export default function Login() {
         setErrorMsg(err.message);
         setTimeout(() => {
           setErrorMsg("");
-        }, 5000);
+        }, 4000);
       }
     }
   };
@@ -38,7 +38,7 @@ export default function Login() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900">
+    <div className="flex flex-col items-center justify-center min-h-[calc(100vh-140px)] h-auto">
       <div className="w-full max-w-md p-8 space-y-6 bg-white dark:bg-gray-800 rounded shadow-md text-black dark:text-white">
         <h2 className="text-2xl font-bold text-center">Login</h2>
         <form className="space-y-4" action={formLogin}>
@@ -93,7 +93,8 @@ export default function Login() {
           {errorMsg && <div className="text-red-500 text-sm">{errorMsg}</div>}
           <button
             type="submit"
-            className="w-full px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400"
+            disabled={errorMsg ? true : false}
+            className="w-full px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 disabled:opacity-50"
           >
             Log In
           </button>

@@ -1,13 +1,13 @@
 import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router";
 import axiosInstance from "../../axiosInstance";
-import { ProductType } from "../../types";
+import { FullProductType } from "../../types";
 import RecipesDetails from "../../components/RecipesDetails";
 import { IoMdWarning } from "react-icons/io";
 import { AuthContext } from "../../context/AuthContext";
 
 export default function Details() {
-  const [recipe, setRecipes] = useState<ProductType>();
+  const [recipe, setRecipes] = useState<FullProductType>();
   const [error, setError] = useState<string | null>(null);
   const { id } = useParams();
   const { user } = useContext(AuthContext);
@@ -26,6 +26,7 @@ export default function Details() {
         const res = await axiosInstance.get(`/catalog/${id}`);
         setRecipes(res.data);
       } catch (err) {
+        setRecipes(undefined);
         if (err instanceof Error) {
           setError(err.message);
         }

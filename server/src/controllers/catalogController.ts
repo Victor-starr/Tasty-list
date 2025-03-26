@@ -26,18 +26,32 @@ catalogController.get("/:id", async (req, res) => {
   const { id } = req.params;
   try {
     const product = await productServices.getOneProduct(id);
-    if (!product) {
-      throw new Error("No product found with the given ID");
-    }
     res.status(200).send(product);
   } catch (error) {
-    res.status(500).send({ message: "Failed to fetch product" });
+    const errorMSG = getErrorMessage(error);
+    res.status(500).send({ message: errorMSG });
+  }
+});
+
+catalogController.post("/create", isAuth, async (req, res) => {
+  const productData = req.body;
+  const userId = (req as any).user._id;
+  try {
+    const newProduct = await productServices.createProduct({
+      ...productData,
+      owner: userId,
+    });
+    res.status(201).send(newProduct);
+  } catch (error) {
+    const errorMSG = getErrorMessage(error);
+    res.status(400).send({ message: errorMSG });
   }
 });
 
 catalogController.post("/:id/recommend", isAuth, async (req, res) => {
-  const productId = req.params._id;
-  const { userId }: { userId: string } = req.body;
+  const productId = req.params.id; // Fixed from req.params._id
+  const userId = (req as any).user._id; // Extract user ID from isAuth middleware
+
   try {
     await productServices.recommend(productId, userId);
     res.status(200).send({ message: "Product recommended successfully" });

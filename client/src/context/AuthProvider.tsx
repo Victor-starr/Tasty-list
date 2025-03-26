@@ -5,25 +5,23 @@ import axiosInstance from "../axiosInstance";
 
 const AuthProvider = ({ children }: { children: ReactNode }): JSX.Element => {
   const [user, setUser] = useState<UserDataFormType | null>(null);
-  const [authChanged, setAuthChanged] = useState(false); // State to trigger re-renders
+  const [loading, setLoading] = useState(true);
 
   const checkAuth = async () => {
     try {
       const res = await axiosInstance.get("/auth/check");
-      if (res.data.user) {
-        setUser(res.data.user);
-      } else {
-        setUser(null);
-      }
+      setUser(res.data.user);
     } catch (error) {
       console.error("Failed to check auth:", error);
       setUser(null);
+    } finally {
+      setLoading(false); // Set loading to false after the check
     }
   };
 
   useEffect(() => {
     checkAuth();
-  }, [authChanged]); // Trigger useEffect when authChanged toggles
+  }, []);
 
   const login = async (userData: UserDataFormType): Promise<void> => {
     if (
@@ -37,9 +35,8 @@ const AuthProvider = ({ children }: { children: ReactNode }): JSX.Element => {
       throw new Error("Passwords do not match");
     }
     try {
-      const res = await axiosInstance.post("/auth/login", userData);
-      setUser(res.data.user);
-      setAuthChanged((prev) => !prev); // Toggle authChanged to trigger re-render
+      await axiosInstance.post("/auth/login", userData);
+      await checkAuth(); // Refresh user state after login
     } catch (error) {
       throw new Error((error as ServerErrorMessage).response.data.message);
     }
@@ -55,7 +52,6 @@ const AuthProvider = ({ children }: { children: ReactNode }): JSX.Element => {
     }
     try {
       await axiosInstance.post("/auth/register", userData);
-      setAuthChanged((prev) => !prev); // Toggle authChanged to trigger re-render
     } catch (error) {
       throw new Error((error as ServerErrorMessage).response.data.message);
     }
@@ -64,11 +60,11 @@ const AuthProvider = ({ children }: { children: ReactNode }): JSX.Element => {
   const logout = async (): Promise<void> => {
     await axiosInstance.post("/auth/logout", {});
     setUser(null);
-    setAuthChanged((prev) => !prev); // Toggle authChanged to trigger re-render
+    await checkAuth();
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, register, logout }}>
+    <AuthContext.Provider value={{ user, loading, login, register, logout }}>
       {children}
     </AuthContext.Provider>
   );

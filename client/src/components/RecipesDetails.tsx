@@ -1,5 +1,5 @@
 import { Link } from "react-router";
-import { ProductType } from "../types";
+import { FullProductType } from "../types";
 import { FaEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import { MdFavorite } from "react-icons/md";
@@ -10,7 +10,7 @@ const RecipesDetails = ({
   isUser,
   isRecommended,
 }: {
-  props: ProductType;
+  props: FullProductType;
   isOwner: boolean;
   isUser: boolean;
   isRecommended: boolean;

@@ -8,8 +8,22 @@ const getLastThree = async () => Product.find({}).sort({ _id: -1 }).limit(3);
 
 const getOneProduct = async (id: string) => Product.findById(id);
 
-const createProduct = async (productData: ProductType, userID: string) =>
-  Product.create({ ...productData, owner: userID });
+const createProduct = async (productData: ProductType) => {
+  const { owner, ...rest } = productData;
+  if (
+    rest.title === "" ||
+    rest.ingredients === "" ||
+    rest.instructions === "" ||
+    rest.description === "" ||
+    rest.image === ""
+  ) {
+    throw new Error("All fields are required");
+  }
+  if (!Types.ObjectId.isValid(owner)) {
+    throw new Error("Invalid ObjectId format");
+  }
+  return Product.create({ ...rest, owner: new Types.ObjectId(owner) });
+};
 
 const update = async (
   productId: string,

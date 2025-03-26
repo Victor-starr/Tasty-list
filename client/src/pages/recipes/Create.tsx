@@ -1,13 +1,139 @@
+import { useState } from "react";
+import { ProductType } from "../../types";
+import axiosInstance from "../../axiosInstance";
+import { useNavigate } from "react-router";
 export default function Create() {
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const [tempData, setTempData] = useState({
+    title: "",
+    ingredients: "",
+    instructions: "",
+    description: "",
+    image: "",
+  });
+  const navigate = useNavigate();
+
+  const formCreate = async (formData: FormData) => {
+    const fromEntries = Object.fromEntries(formData);
+    const productData = fromEntries as unknown as ProductType;
+    console.log(productData);
+    try {
+      setErrorMsg("");
+      await axiosInstance.post("/catalog/create", productData);
+      navigate("/recipes");
+    } catch (error) {
+      console.log(error);
+      if (error instanceof Error) {
+        setErrorMsg(error.message);
+        setTimeout(() => {
+          setErrorMsg("");
+        }, 4000);
+      }
+    }
+  };
+
+  const handleInput = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setTempData((prev) => ({ ...prev, [name]: value }));
+  };
+
   return (
-    <div className="min-h-screen flex items-center justify-center">
-      <div className="p-8 text-center bg-white dark:bg-gray-800 rounded-lg shadow-lg">
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
-          Welcome To Create Recipes Page
-        </h1>
-        <p className="text-lg text-gray-700 dark:text-gray-300">
-          This is the reate recipes page of our application.
-        </p>
+    <div className="flex flex-col items-center justify-center min-h-[calc(100vh-140px)] h-auto">
+      <div className="w-full max-w-md p-8 space-y-6 bg-white dark:bg-gray-800 rounded shadow-md text-black dark:text-white">
+        <h2 className="text-2xl font-bold text-center">
+          Create your own Recipe
+        </h2>
+        <form className="space-y-4" action={formCreate}>
+          <div>
+            <label
+              htmlFor="title"
+              className="block text-sm font-medium text-gray-900 dark:text-gray-300"
+            >
+              Title: <i className="text-red-500">*</i>
+            </label>
+            <input
+              type="text"
+              id="title"
+              name="title"
+              value={tempData.title}
+              onChange={handleInput}
+              className="w-full px-3 py-2 mt-1 border rounded-md focus:outline-none focus:ring focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+            />
+          </div>
+          <div>
+            <label
+              htmlFor="ingredients"
+              className="block text-sm font-medium text-gray-900 dark:text-gray-300"
+            >
+              Ingredients: <i className="text-red-500">*</i>
+            </label>
+            <input
+              type="text"
+              id="ingredients"
+              name="ingredients"
+              value={tempData.ingredients}
+              onChange={handleInput}
+              className="w-full px-3 py-2 mt-1 border rounded-md focus:outline-none focus:ring focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+            />
+          </div>
+          <div>
+            <label
+              htmlFor="instructions"
+              className="block text-sm font-medium text-gray-900 dark:text-gray-300"
+            >
+              Instructions: <i className="text-red-500">*</i>
+            </label>
+            <input
+              type="text"
+              id="instructions"
+              name="instructions"
+              value={tempData.instructions}
+              onChange={handleInput}
+              className="w-full px-3 py-2 mt-1 border rounded-md focus:outline-none focus:ring focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+            />
+          </div>
+          <div>
+            <label
+              htmlFor="image"
+              className="block text-sm font-medium text-gray-900 dark:text-gray-300"
+            >
+              image: <i className="text-red-500">*</i>
+            </label>
+            <input
+              type="text"
+              id="image"
+              name="image"
+              value={tempData.image}
+              onChange={handleInput}
+              className="w-full px-3 py-2 mt-1 border rounded-md focus:outline-none focus:ring focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+            />
+          </div>
+          <div>
+            <label
+              htmlFor="description"
+              className="block text-sm font-medium text-gray-900 dark:text-gray-300"
+            >
+              Description: <i className="text-red-500">*</i>
+            </label>
+            <textarea
+              id="description"
+              name="description"
+              value={tempData.description}
+              onChange={handleInput}
+              className="w-full max-h-[150px] px-3 py-2 mt-1 border rounded-md focus:outline-none focus:ring focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+            />
+          </div>
+          {errorMsg && <div className="text-red-500 text-sm">{errorMsg}</div>}
+          <button
+            type="submit"
+            disabled={errorMsg ? true : false}
+            className="w-full px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 disabled:opacity-50"
+          >
+            Create
+          </button>
+        </form>
       </div>
     </div>
   );

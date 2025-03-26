@@ -32,7 +32,7 @@ export default function Register() {
         setErrorMsg(err.message);
         setTimeout(() => {
           setErrorMsg("");
-        }, 5000);
+        }, 4000);
       }
     }
   };
@@ -42,7 +42,7 @@ export default function Register() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900">
+    <div className="flex flex-col items-center justify-center min-h-[calc(100vh-140px)] h-auto">
       <div className="w-full max-w-md p-8 space-y-6 bg-white dark:bg-gray-800 rounded shadow-md">
         <h2 className="text-2xl font-bold text-center text-gray-900 dark:text-gray-100">
           Register
@@ -87,7 +87,8 @@ export default function Register() {
           {errorMsg && <div className="text-red-500">{errorMsg}</div>}
           <button
             type="submit"
-            className="w-full px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400"
+            disabled={errorMsg ? true : false}
+            className="w-full px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 disabled:opacity-50"
           >
             Register
           </button>
