@@ -8,13 +8,17 @@ import GuestGuard from "./guard/GuestGuard";
 import Logout from "./pages/auth/Logout";
 import Catalog from "./pages/recipes/Catalog";
 import Create from "./pages/recipes/Create";
+import Details from "./pages/recipes/Details";
 
 const App = () => {
   return (
     <Routes>
       <Route index element={<Home />} />
       <Route path="*" element={<NotFound />} />
-      <Route path="/recipes" element={<Catalog />} />
+      <Route path="/recipes">
+        <Route index element={<Catalog />} />
+        <Route path=":id" element={<Details />}></Route>
+      </Route>
       <Route element={<AuthGuard />}>
         <Route path="/recipes/create" element={<Create />} />
         <Route path="/auth/logout" element={<Logout />} />

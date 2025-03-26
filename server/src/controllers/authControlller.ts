@@ -71,7 +71,6 @@ authController.post("/logout", isAuth, (req, res) => {
  */
 authController.get("/check", (req: Request, res: Response) => {
   const token = req.cookies.auth;
-
   const user = authServices.verifyToken(token);
   res.status(200).json({ user });
 });

@@ -1,6 +1,6 @@
 export interface UserDataFormType {
-  _id?: string;
-  username?: string;
+  _id: string;
+  username: string;
   email: string;
   password: string;
   rePassword?: string;

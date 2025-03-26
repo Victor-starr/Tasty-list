@@ -8,13 +8,18 @@ export default function Catalog() {
   const [recipes, setRecipes] = useState<ProductType[]>([]);
 
   const fetchData = async () => {
-    const res = await axiosInstance.get("/catalog");
-    setRecipes(res.data);
+    try {
+      const res = await axiosInstance.get("/catalog");
+      setRecipes(res.data);
+    } catch (error) {
+      console.error("Error fetching recipes:", error);
+    }
   };
 
   useEffect(() => {
     fetchData();
   }, []);
+
   return (
     <div className="flex flex-col items-center justify-center min-h-[calc(100vh-140px)] h-auto">
       <div className="py-16 text-center w-full">
@@ -36,9 +41,7 @@ export default function Catalog() {
         <h1 className="h1-title">Featured Recipes</h1>
         <div className="flex flex-wrap justify-center gap-10 w-350">
           {recipes.length > 0 ? (
-            recipes.map((recipe: ProductType) => (
-              <Recipes key={recipe._id} {...recipe} />
-            ))
+            recipes.map((recipe) => <Recipes key={recipe._id} {...recipe} />)
           ) : (
             <p className="text-slate-600 dark:text-slate-400 text-lg sm:text-xl max-w-2xl mx-auto">
               No recipes found

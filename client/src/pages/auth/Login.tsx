@@ -2,10 +2,15 @@ import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router";
 import { UserDataFormType } from "../../types";
 import { AuthContext } from "../../context/AuthContext";
+
 export default function Login() {
   const { login } = useContext(AuthContext);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
-
+  const [tempData, setTempData] = useState({
+    email: "",
+    password: "",
+    rePassword: "",
+  });
   const navigate = useNavigate();
 
   const formLogin = async (formData: FormData) => {
@@ -13,6 +18,8 @@ export default function Login() {
     const userData = fromEntries as unknown as UserDataFormType;
 
     try {
+      setErrorMsg("");
+      setTempData({ email: userData.email, password: "", rePassword: "" });
       await login(userData);
       navigate("/");
     } catch (err) {
@@ -23,6 +30,11 @@ export default function Login() {
         }, 5000);
       }
     }
+  };
+
+  const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setTempData((prev) => ({ ...prev, [name]: value }));
   };
 
   return (
@@ -41,6 +53,8 @@ export default function Login() {
               type="text"
               id="email"
               name="email"
+              value={tempData.email}
+              onChange={handleInput}
               className="w-full px-3 py-2 mt-1 border rounded-md focus:outline-none focus:ring focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
             />
           </div>
@@ -55,6 +69,8 @@ export default function Login() {
               type="password"
               id="password"
               name="password"
+              value={tempData.password}
+              onChange={handleInput}
               className="w-full px-3 py-2 mt-1 border rounded-md focus:outline-none focus:ring focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
             />
           </div>
@@ -69,6 +85,8 @@ export default function Login() {
               type="password"
               id="rePassword"
               name="rePassword"
+              value={tempData.rePassword}
+              onChange={handleInput}
               className="w-full px-3 py-2 mt-1 border rounded-md focus:outline-none focus:ring focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
             />
           </div>

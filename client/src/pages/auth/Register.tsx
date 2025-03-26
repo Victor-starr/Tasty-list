@@ -6,6 +6,11 @@ import { AuthContext } from "../../context/AuthContext";
 export default function Register() {
   const { register } = useContext(AuthContext);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const [tempData, setTempData] = useState({
+    username: "",
+    email: "",
+    password: "",
+  });
 
   const navigate = useNavigate();
 
@@ -14,8 +19,14 @@ export default function Register() {
     const userData = formDataEntries as unknown as UserDataFormType;
 
     try {
+      setErrorMsg("");
+      setTempData({
+        username: userData.username,
+        email: userData.email,
+        password: "",
+      });
       await register(userData);
-      navigate("/");
+      navigate("/auth/login");
     } catch (err) {
       if (err instanceof Error) {
         setErrorMsg(err.message);
@@ -24,6 +35,10 @@ export default function Register() {
         }, 5000);
       }
     }
+  };
+  const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setTempData((prev) => ({ ...prev, [name]: value }));
   };
 
   return (
@@ -40,6 +55,8 @@ export default function Register() {
             <input
               type="text"
               name="username"
+              value={tempData.username}
+              onChange={handleInput}
               className="w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
             />
           </div>
@@ -50,6 +67,8 @@ export default function Register() {
             <input
               type="email"
               name="email"
+              value={tempData.email}
+              onChange={handleInput}
               className="w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
             />
           </div>
@@ -60,6 +79,8 @@ export default function Register() {
             <input
               type="password"
               name="password"
+              value={tempData.password}
+              onChange={handleInput}
               className="w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
             />
           </div>

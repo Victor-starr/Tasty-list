@@ -15,8 +15,12 @@ dotenv.config();
  * @returns {Promise<void>} A promise that resolves to the created user.
  */
 const register = async (userData: UserFormState): Promise<void> => {
-  if (userData.email === "" || userData.password === "") {
-    throw new Error("Email and password are required");
+  if (
+    userData.username === "" ||
+    userData.email === "" ||
+    userData.password === ""
+  ) {
+    throw new Error("All fields are required");
   }
   const isExisting = await User.findOne({ email: userData.email }).select({
     _id: true,
@@ -39,8 +43,12 @@ const register = async (userData: UserFormState): Promise<void> => {
  * @returns {Promise<string | Error>} A promise that resolves to a JWT token if authentication is successful.
  */
 const login = async (userData: UserFormState): Promise<string | Error> => {
-  if (userData.email === "" || userData.password === "") {
-    throw new Error("Email and password are required");
+  if (
+    userData.email === "" ||
+    userData.password === "" ||
+    userData.rePassword === ""
+  ) {
+    throw new Error("All fields are required");
   }
   if (userData.password !== userData.rePassword) {
     throw new Error("Passwords do not match");

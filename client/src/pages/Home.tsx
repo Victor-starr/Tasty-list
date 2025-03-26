@@ -2,7 +2,7 @@ import { Link } from "react-router";
 import axiosInstance from "../axiosInstance";
 import { useEffect, useState } from "react";
 import { ProductType } from "../types";
-import Recipes from "../components/Recipe";
+import RecipesDefault from "../components/Recipe";
 
 export default function Home() {
   const [recipes, setRecipes] = useState<ProductType[]>([]);
@@ -38,7 +38,7 @@ export default function Home() {
         <div className="flex flex-col md:flex-row items-center md:items-stretch flex-wrap justify-center gap-8">
           {recipes.length > 0 ? (
             recipes.map((recipe: ProductType) => (
-              <Recipes key={recipe._id} {...recipe} />
+              <RecipesDefault key={recipe._id} {...recipe} />
             ))
           ) : (
             <p className="text-slate-600 dark:text-slate-400 text-lg sm:text-xl max-w-2xl mx-auto">
