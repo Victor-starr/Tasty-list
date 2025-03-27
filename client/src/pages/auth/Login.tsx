@@ -1,43 +1,19 @@
-import { useContext, useState } from "react";
-import { Link, useNavigate } from "react-router";
-import { UserDataFormType, ServerErrorMessage } from "../../types";
-import { AuthContext } from "../../context/AuthContext";
-import { NotificationContext } from "../../context/NotificationContext";
-
+import { Link } from "react-router";
+import useAuthAPI from "../../hooks/useAuthAPI";
 export default function Login() {
-  const { login } = useContext(AuthContext);
-  const { showNotification } = useContext(NotificationContext);
-  const [tempData, setTempData] = useState({
-    email: "",
-    password: "",
-    rePassword: "",
-  });
-  const navigate = useNavigate();
-
-  const formLogin = async (formData: FormData) => {
-    const fromEntries = Object.fromEntries(formData);
-    const userData = fromEntries as unknown as UserDataFormType;
-
-    try {
-      setTempData({ email: userData.email, password: "", rePassword: "" });
-      const res = await login(userData);
-      showNotification(res);
-      navigate("/");
-    } catch (err) {
-      showNotification(err as ServerErrorMessage);
-    }
-  };
-
-  const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setTempData((prev) => ({ ...prev, [name]: value }));
-  };
+  const { formData, handleInput, handleLogin } = useAuthAPI();
 
   return (
     <div className="flex flex-col items-center justify-center min-h-[calc(100vh-140px)] h-auto">
       <div className="w-full max-w-md p-8 space-y-6 bg-white dark:bg-gray-800 rounded shadow-md text-black dark:text-white">
         <h2 className="text-2xl font-bold text-center">Login</h2>
-        <form className="space-y-4" action={formLogin}>
+        <form
+          className="space-y-4"
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleLogin();
+          }}
+        >
           <div>
             <label
               htmlFor="email"
@@ -49,7 +25,7 @@ export default function Login() {
               type="text"
               id="email"
               name="email"
-              value={tempData.email}
+              value={formData.email || ""}
               onChange={handleInput}
               className="w-full px-3 py-2 mt-1 border rounded-md focus:outline-none focus:ring focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
             />
@@ -65,7 +41,7 @@ export default function Login() {
               type="password"
               id="password"
               name="password"
-              value={tempData.password}
+              value={formData.password || ""}
               onChange={handleInput}
               className="w-full px-3 py-2 mt-1 border rounded-md focus:outline-none focus:ring focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
             />
@@ -81,7 +57,7 @@ export default function Login() {
               type="password"
               id="rePassword"
               name="rePassword"
-              value={tempData.rePassword}
+              value={formData.rePassword || ""}
               onChange={handleInput}
               className="w-full px-3 py-2 mt-1 border rounded-md focus:outline-none focus:ring focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
             />

@@ -1,41 +1,9 @@
-import { Link, useNavigate } from "react-router";
-import { UserDataFormType, ServerErrorMessage } from "../../types";
-import { useContext, useState } from "react";
-import { AuthContext } from "../../context/AuthContext";
-import { NotificationContext } from "../../context/NotificationContext";
+import { Link } from "react-router";
+
+import useAuthAPI from "../../hooks/useAuthAPI";
 
 export default function Register() {
-  const { register } = useContext(AuthContext);
-  const { showNotification } = useContext(NotificationContext);
-  const [tempData, setTempData] = useState({
-    username: "",
-    email: "",
-    password: "",
-  });
-
-  const navigate = useNavigate();
-
-  const formRegister = async (formData: FormData) => {
-    const formDataEntries = Object.fromEntries(formData);
-    const userData = formDataEntries as unknown as UserDataFormType;
-
-    try {
-      setTempData({
-        username: userData.username,
-        email: userData.email,
-        password: "",
-      });
-      const res = await register(userData);
-      showNotification(res);
-      navigate("/auth/login");
-    } catch (err) {
-      showNotification(err as ServerErrorMessage);
-    }
-  };
-  const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setTempData((prev) => ({ ...prev, [name]: value }));
-  };
+  const { formData, handleInput, handleRegister } = useAuthAPI();
 
   return (
     <div className="flex flex-col items-center justify-center min-h-[calc(100vh-140px)] h-auto">
@@ -43,7 +11,13 @@ export default function Register() {
         <h2 className="text-2xl font-bold text-center text-gray-900 dark:text-gray-100">
           Register
         </h2>
-        <form className="space-y-4" action={formRegister}>
+        <form
+          className="space-y-4"
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleRegister();
+          }}
+        >
           <div>
             <label className="block mb-1 text-sm font-medium text-gray-700 dark:text-gray-300">
               Username:<i className="text-red-500">*</i>
@@ -51,7 +25,7 @@ export default function Register() {
             <input
               type="text"
               name="username"
-              value={tempData.username}
+              value={formData.username || ""}
               onChange={handleInput}
               className="w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
             />
@@ -63,7 +37,7 @@ export default function Register() {
             <input
               type="email"
               name="email"
-              value={tempData.email}
+              value={formData.email || ""}
               onChange={handleInput}
               className="w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
             />
@@ -75,7 +49,7 @@ export default function Register() {
             <input
               type="password"
               name="password"
-              value={tempData.password}
+              value={formData.password || ""}
               onChange={handleInput}
               className="w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
             />
