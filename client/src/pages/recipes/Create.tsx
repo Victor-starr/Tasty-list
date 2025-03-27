@@ -1,38 +1,9 @@
-import { useState, useContext } from "react";
-import { ProductType, ServerErrorMessage } from "../../types";
-import axiosInstance from "../../axiosInstance";
 import { useNavigate } from "react-router";
-import { NotificationContext } from "../../context/NotificationContext";
+import useRecipeAPI from "../../hooks/useRecipeAPI";
 
 export default function Create() {
-  const [tempData, setTempData] = useState({
-    title: "",
-    ingredients: "",
-    instructions: "",
-    description: "",
-    image: "",
-  });
+  const { formData, handleInput, createRecipe } = useRecipeAPI();
   const navigate = useNavigate();
-  const { showNotification } = useContext(NotificationContext);
-
-  const formCreate = async (formData: FormData) => {
-    const fromEntries = Object.fromEntries(formData);
-    const productData = fromEntries as unknown as ProductType;
-    try {
-      const res = await axiosInstance.post("/catalog/create", productData);
-      showNotification(res);
-      navigate("/recipes");
-    } catch (error) {
-      showNotification(error as ServerErrorMessage);
-    }
-  };
-
-  const handleInput = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = e.target;
-    setTempData((prev) => ({ ...prev, [name]: value }));
-  };
 
   return (
     <div className="flex flex-col items-center justify-center min-h-[calc(100vh-140px)] h-auto">
@@ -40,7 +11,13 @@ export default function Create() {
         <h2 className="text-2xl font-bold text-center">
           Create your own Recipe
         </h2>
-        <form className="space-y-4" action={formCreate}>
+        <form
+          className="space-y-4"
+          onSubmit={(e) => {
+            e.preventDefault();
+            createRecipe();
+          }}
+        >
           <div>
             <label
               htmlFor="title"
@@ -52,7 +29,7 @@ export default function Create() {
               type="text"
               id="title"
               name="title"
-              value={tempData.title}
+              value={formData.title || ""}
               onChange={handleInput}
               className="w-full px-3 py-2 mt-1 border rounded-md focus:outline-none focus:ring focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
             />
@@ -68,7 +45,7 @@ export default function Create() {
               type="text"
               id="ingredients"
               name="ingredients"
-              value={tempData.ingredients}
+              value={formData.ingredients || ""}
               onChange={handleInput}
               className="w-full px-3 py-2 mt-1 border rounded-md focus:outline-none focus:ring focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
             />
@@ -84,7 +61,7 @@ export default function Create() {
               type="text"
               id="instructions"
               name="instructions"
-              value={tempData.instructions}
+              value={formData.instructions || ""}
               onChange={handleInput}
               className="w-full px-3 py-2 mt-1 border rounded-md focus:outline-none focus:ring focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
             />
@@ -100,7 +77,7 @@ export default function Create() {
               type="text"
               id="image"
               name="image"
-              value={tempData.image}
+              value={formData.image || ""}
               onChange={handleInput}
               className="w-full px-3 py-2 mt-1 border rounded-md focus:outline-none focus:ring focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
             />
@@ -115,7 +92,7 @@ export default function Create() {
             <textarea
               id="description"
               name="description"
-              value={tempData.description}
+              value={formData.description || ""}
               onChange={handleInput}
               className="w-full max-h-[150px] px-3 py-2 mt-1 border rounded-md focus:outline-none focus:ring focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
             />

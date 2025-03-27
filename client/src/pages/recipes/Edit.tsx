@@ -1,65 +1,26 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useParams, useNavigate } from "react-router";
-import { ProductType, ServerErrorMessage } from "../../types";
-import { NotificationContext } from "../../context/NotificationContext";
-import axiosInstance from "../../axiosInstance";
+import useRecipeAPI from "../../hooks/useRecipeAPI";
 
 function Edit() {
   const { id } = useParams();
-  const [tempData, setTempData] = useState({
-    title: "",
-    ingredients: "",
-    instructions: "",
-    description: "",
-    image: "",
-  });
+  const { formData, fetchRecipe, updateRecipe, handleInput } = useRecipeAPI();
+
   const navigate = useNavigate();
-  const { showNotification } = useContext(NotificationContext);
 
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (id) updateRecipe(id);
+  };
   useEffect(() => {
-    const fetchRecipe = async () => {
-      try {
-        const res = await axiosInstance.get(`/catalog/${id}`);
-        setTempData(res.data);
-      } catch (err) {
-        showNotification(err as ServerErrorMessage);
-        setTempData({
-          title: "",
-          ingredients: "",
-          instructions: "",
-          description: "",
-          image: "",
-        });
-      }
-    };
-
-    fetchRecipe();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    if (id) fetchRecipe(id);
   }, [id]);
 
-  const formCreate = async (formData: FormData) => {
-    const fromEntries = Object.fromEntries(formData);
-    const productData = fromEntries as unknown as ProductType;
-    try {
-      const res = await axiosInstance.put(`/catalog/${id}`, productData);
-      showNotification(res);
-      navigate(`/recipes/${id}`);
-    } catch (error) {
-      showNotification(error as ServerErrorMessage);
-    }
-  };
-
-  const handleInput = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = e.target;
-    setTempData((prev) => ({ ...prev, [name]: value }));
-  };
   return (
     <div className="flex flex-col items-center justify-center min-h-[calc(100vh-140px)] h-auto">
       <div className="w-full max-w-md p-8 space-y-6 bg-white dark:bg-gray-800 rounded shadow-md text-black dark:text-white">
         <h2 className="text-2xl font-bold text-center">Edit your Recipe</h2>
-        <form className="space-y-4" action={formCreate}>
+        <form className="space-y-4" onSubmit={handleSubmit}>
           <div>
             <label
               htmlFor="title"
@@ -71,7 +32,7 @@ function Edit() {
               type="text"
               id="title"
               name="title"
-              value={tempData.title}
+              value={formData.title || ""}
               onChange={handleInput}
               className="w-full px-3 py-2 mt-1 border rounded-md focus:outline-none focus:ring focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
             />
@@ -87,7 +48,7 @@ function Edit() {
               type="text"
               id="ingredients"
               name="ingredients"
-              value={tempData.ingredients}
+              value={formData.ingredients || ""}
               onChange={handleInput}
               className="w-full px-3 py-2 mt-1 border rounded-md focus:outline-none focus:ring focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
             />
@@ -103,7 +64,7 @@ function Edit() {
               type="text"
               id="instructions"
               name="instructions"
-              value={tempData.instructions}
+              value={formData.instructions || ""}
               onChange={handleInput}
               className="w-full px-3 py-2 mt-1 border rounded-md focus:outline-none focus:ring focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
             />
@@ -119,7 +80,7 @@ function Edit() {
               type="text"
               id="image"
               name="image"
-              value={tempData.image}
+              value={formData.image || ""}
               onChange={handleInput}
               className="w-full px-3 py-2 mt-1 border rounded-md focus:outline-none focus:ring focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
             />
@@ -134,7 +95,7 @@ function Edit() {
             <textarea
               id="description"
               name="description"
-              value={tempData.description}
+              value={formData.description || ""}
               onChange={handleInput}
               className="w-full max-h-[150px] px-3 py-2 mt-1 border rounded-md focus:outline-none focus:ring focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
             />

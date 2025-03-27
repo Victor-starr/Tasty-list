@@ -1,23 +1,13 @@
 import { Link } from "react-router";
-import axiosInstance from "../../axiosInstance";
-import { useEffect, useState } from "react";
-import { ProductType } from "../../types";
+import { useEffect } from "react";
 import Recipes from "../../components/Recipe";
+import useRecipeAPI from "../../hooks/useRecipeAPI";
 
 export default function Catalog() {
-  const [recipes, setRecipes] = useState<ProductType[]>([]);
-
-  const fetchData = async () => {
-    try {
-      const res = await axiosInstance.get("/catalog");
-      setRecipes(res.data);
-    } catch (error) {
-      console.error("Error fetching recipes:", error);
-    }
-  };
+  const { recipes, fetchAllRecipes } = useRecipeAPI();
 
   useEffect(() => {
-    fetchData();
+    fetchAllRecipes();
   }, []);
 
   return (

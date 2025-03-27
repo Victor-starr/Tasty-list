@@ -1,13 +1,12 @@
 import { Link, useNavigate } from "react-router";
-import { FullProductType, ServerErrorMessage } from "../types";
-import { NotificationContext } from "../context/NotificationContext";
+import { FullProductType } from "../types";
 
 import { FaEdit } from "react-icons/fa";
 import { MdDelete, MdFavorite } from "react-icons/md";
 import { FaRegThumbsUp } from "react-icons/fa";
-import axiosInstance from "../axiosInstance";
 import { IoMdReturnRight } from "react-icons/io";
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
+import useRecipeAPI from "../hooks/useRecipeAPI";
 
 interface RecipesDetailsProps {
   props: FullProductType;
@@ -24,19 +23,14 @@ const RecipesDetails: React.FC<RecipesDetailsProps> = ({
   isRecommended,
   addToRecommend,
 }) => {
-  const { showNotification } = useContext(NotificationContext);
+  const { deleteRecipe } = useRecipeAPI();
   const [confirmDel, setConfirmDel] = useState(false);
   const navigate = useNavigate();
   const isValidImage = /^https?:\/\//.test(props.image);
 
-  const deleteHandler = async () => {
-    try {
-      const res = await axiosInstance.delete(`/catalog/${props._id}`);
-      showNotification(res);
-      navigate("/recipes");
-    } catch (err) {
-      showNotification(err as ServerErrorMessage);
-    }
+  const handleDelete = async () => {
+    setConfirmDel(false);
+    await deleteRecipe(props._id);
   };
 
   return (
@@ -56,10 +50,7 @@ const RecipesDetails: React.FC<RecipesDetailsProps> = ({
               </button>
               <button
                 className="text-lg font-bold text-white bg-red-500 hover:bg-red-600 py-2 px-4 rounded-md"
-                onClick={() => {
-                  setConfirmDel(false);
-                  deleteHandler();
-                }}
+                onClick={handleDelete}
               >
                 Delete
               </button>

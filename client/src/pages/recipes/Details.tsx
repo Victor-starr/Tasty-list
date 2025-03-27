@@ -1,16 +1,14 @@
 import { useContext, useEffect, useState } from "react";
 import { Link, useParams } from "react-router";
-import axiosInstance from "../../axiosInstance";
-import { FullProductType, ServerErrorMessage } from "../../types";
+import useRecipeAPI from "../../hooks/useRecipeAPI";
 import RecipesDetails from "../../components/RecipesDetails";
 import { AuthContext } from "../../context/AuthContext";
-import { NotificationContext } from "../../context/NotificationContext";
 
 export default function Details() {
-  const [recipe, setRecipe] = useState<FullProductType | null>(null);
-  const { showNotification } = useContext(NotificationContext);
+  const { recipe, fetchRecipe, addToRecommend } = useRecipeAPI();
   const { id } = useParams();
   const { user } = useContext(AuthContext);
+  const [updateTrigger, setUpdateTrigger] = useState(false); // State to track updates
 
   const isUser = !!user;
   const isOwner = recipe?.owner.toString() === user?._id;
@@ -18,29 +16,17 @@ export default function Details() {
     (recommendId) => recommendId.toString() === user?._id
   );
 
-  const addToRecommend = async () => {
-    try {
-      const res = await axiosInstance.put(`/catalog/${id}/recommend`);
-      showNotification(res);
-    } catch (err) {
-      showNotification(err as ServerErrorMessage);
-    }
-  };
-
   useEffect(() => {
-    const fetchRecipe = async () => {
-      try {
-        const res = await axiosInstance.get(`/catalog/${id}`);
-        setRecipe(res.data);
-      } catch (err) {
-        showNotification(err as ServerErrorMessage);
-        setRecipe(null);
-      }
-    };
+    if (id) fetchRecipe(id);
+  }, [id, updateTrigger]); // Add updateTrigger to dependencies
 
-    fetchRecipe();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id, addToRecommend]);
+  // TODO FIND BETTER WAY 😴
+  const handleAddToRecommend = async () => {
+    if (recipe) {
+      await addToRecommend(recipe._id);
+    }
+    setUpdateTrigger((prev) => !prev); // Toggle updateTrigger to refetch data
+  };
 
   return (
     <div className="flex flex-col items-center justify-center min-h-[calc(100vh-140px)] h-auto relative">
@@ -51,7 +37,7 @@ export default function Details() {
             isOwner={isOwner}
             isUser={isUser}
             isRecommended={!!isRecommended}
-            addToRecommend={addToRecommend}
+            addToRecommend={handleAddToRecommend}
           />
         ) : (
           <div className="flex flex-col items-center justify-center">
