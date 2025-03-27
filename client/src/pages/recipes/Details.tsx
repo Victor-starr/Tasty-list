@@ -1,61 +1,60 @@
 import { useContext, useEffect, useState } from "react";
-import { useParams } from "react-router";
+import { Link, useParams } from "react-router";
 import axiosInstance from "../../axiosInstance";
-import { FullProductType } from "../../types";
+import { FullProductType, ServerErrorMessage } from "../../types";
 import RecipesDetails from "../../components/RecipesDetails";
-import { IoMdWarning } from "react-icons/io";
 import { AuthContext } from "../../context/AuthContext";
+import { NotificationContext } from "../../context/NotificationContext";
 
 export default function Details() {
-  const [recipe, setRecipes] = useState<FullProductType>();
-  const [error, setError] = useState<string | null>(null);
+  const [recipe, setRecipe] = useState<FullProductType | null>(null);
+  const { showNotification } = useContext(NotificationContext);
   const { id } = useParams();
   const { user } = useContext(AuthContext);
-  // TODO - implement user and owner logic here
-  const isUser = user ? true : false;
+
+  const isUser = !!user;
   const isOwner = recipe?.owner.toString() === user?._id;
-  const isRecommed = recipe?.recommendList.some(
+  const isRecommended = recipe?.recommendList.some(
     (id) => id.toString() === user?._id
-  )
-    ? true
-    : false;
+  );
 
   useEffect(() => {
     const fetchRecipe = async () => {
       try {
         const res = await axiosInstance.get(`/catalog/${id}`);
-        setRecipes(res.data);
+        setRecipe(res.data);
       } catch (err) {
-        setRecipes(undefined);
-        if (err instanceof Error) {
-          setError(err.message);
-        }
+        showNotification(err as ServerErrorMessage);
+        setRecipe(null);
       }
     };
 
     fetchRecipe();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   return (
     <div className="flex flex-col items-center justify-center min-h-[calc(100vh-140px)] h-auto relative">
-      {error && (
-        <div className="absolute top-5 right-5 bg-red-500 text-white px-4 py-2 rounded shadow-lg flex items-center space-x-2">
-          <IoMdWarning className="text-1xl" />
-          <span>{error}</span>
-        </div>
-      )}
-      <div className=" flex justify-center py-5 text-center w-full">
+      <div className="flex justify-center py-5 text-center w-full">
         {recipe ? (
           <RecipesDetails
             props={recipe}
             isOwner={isOwner}
             isUser={isUser}
-            isRecommended={isRecommed}
+            isRecommended={!!isRecommended}
           />
         ) : (
-          <p className="text-slate-600 dark:text-slate-400 text-lg sm:text-xl max-w-2xl mx-auto">
-            No recipes found
-          </p>
+          <div className="flex flex-col items-center justify-center">
+            <p className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
+              No recipes found
+            </p>
+            <Link
+              to="/"
+              className="bg-blue-500 dark:bg-violet-700 text-white  px-4 py-2 rounded-lg text-lg font-semibold my-4 relative inline-block"
+            >
+              GO BACK TO HOME PAGE
+            </Link>
+          </div>
         )}
       </div>
     </div>

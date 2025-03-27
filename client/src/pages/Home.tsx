@@ -33,7 +33,7 @@ export default function Home() {
         </Link>
       </div>
 
-      <section className="text-center w-full py-16 bg-white dark:bg-slate-950 flex-grow">
+      <section className="flex flex-col flex-grow text-center w-full py-16 bg-white dark:bg-slate-950 gap-10">
         <h1 className="h1-title">Featured Recipes</h1>
         <div className="flex flex-col md:flex-row items-center md:items-stretch flex-wrap justify-center gap-8">
           {recipes.length > 0 ? (
@@ -41,7 +41,7 @@ export default function Home() {
               <RecipesDefault key={recipe._id} {...recipe} />
             ))
           ) : (
-            <p className="text-slate-600 dark:text-slate-400 text-lg sm:text-xl max-w-2xl mx-auto">
+            <p className="text-slate-600 dark:text-slate-400 text-2xl sm:text-3xl max-w-2xl mx-auto">
               No recipes found
             </p>
           )}

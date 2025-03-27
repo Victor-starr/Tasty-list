@@ -1,0 +1,18 @@
+import { createContext } from "react";
+import { ServerErrorMessage, ServerResponde } from "../types";
+
+interface NotificationContextType {
+  message: string | null;
+  status: number | null;
+  showNotification: (response: ServerErrorMessage | ServerResponde) => void;
+}
+
+const DefaultNotificationContext: NotificationContextType = {
+  message: null,
+  status: null,
+  showNotification: () => {},
+};
+
+export const NotificationContext = createContext<NotificationContextType>(
+  DefaultNotificationContext
+);

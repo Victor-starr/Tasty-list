@@ -1,14 +1,23 @@
 import { Link } from "react-router";
 import { FaReadme } from "react-icons/fa6";
 import { ProductType } from "../types";
+
 const RecipesDefault = (props: ProductType) => {
+  const isValidImage = /^https?:\/\//.test(props.image);
+
   return (
     <div className="max-w-[400px] h-[32.5rem] bg-slate-100 rounded-md shadow-md p-5 dark:bg-gray-800 flex flex-col items-center relative">
-      <img
-        className="w-full h-60 object-cover rounded-md mb-4"
-        src={props.image}
-        alt={props.title}
-      />
+      {isValidImage ? (
+        <img
+          className="w-90 h-60 object-cover rounded-md mb-4 dark:bg-gray-700 bg-gray-50"
+          src={props.image}
+          alt={props.title}
+        />
+      ) : (
+        <div className="w-90 h-60 object-cover rounded-md mb-4 dark:bg-gray-700 bg-gray-50 flex items-center justify-center">
+          <span className="text-gray-500 dark:text-gray-400">No Image</span>
+        </div>
+      )}
       <article className="max-w-sm mx-auto mb-5">
         <h2 className="bg-sky-900 text-white font-bold text-xl p-2 rounded-md mb-2">
           {props.title}

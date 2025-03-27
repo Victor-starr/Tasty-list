@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { ProductType, ServerErrorMessage } from "../../types";
 import axiosInstance from "../../axiosInstance";
 import { useNavigate } from "react-router";
+import { NotificationContext } from "../../context/NotificationContext";
+
 export default function Create() {
-  const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [tempData, setTempData] = useState({
     title: "",
     ingredients: "",
@@ -12,21 +13,17 @@ export default function Create() {
     image: "",
   });
   const navigate = useNavigate();
+  const { showNotification } = useContext(NotificationContext);
 
   const formCreate = async (formData: FormData) => {
     const fromEntries = Object.fromEntries(formData);
     const productData = fromEntries as unknown as ProductType;
-    console.log(productData);
     try {
-      setErrorMsg("");
-      await axiosInstance.post("/catalog/create", productData);
+      const res = await axiosInstance.post("/catalog/create", productData);
+      showNotification(res);
       navigate("/recipes");
     } catch (error) {
-      const serverError = error as ServerErrorMessage;
-      setErrorMsg(serverError.response.data.message);
-      setTimeout(() => {
-        setErrorMsg("");
-      }, 4000);
+      showNotification(error as ServerErrorMessage);
     }
   };
 
@@ -123,11 +120,9 @@ export default function Create() {
               className="w-full max-h-[150px] px-3 py-2 mt-1 border rounded-md focus:outline-none focus:ring focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
             />
           </div>
-          {errorMsg && <div className="text-red-500 text-sm">{errorMsg}</div>}
           <button
             type="submit"
-            disabled={errorMsg ? true : false}
-            className="w-full px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 disabled:opacity-50"
+            className="w-full px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400"
           >
             Create
           </button>

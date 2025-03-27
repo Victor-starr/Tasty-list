@@ -48,11 +48,8 @@ catalogController.post("/create", isAuth, async (req, res) => {
   const productData = req.body;
   const userId = (req as any).user._id;
   try {
-    const newProduct = await productServices.createProduct({
-      ...productData,
-      owner: userId,
-    });
-    res.status(201).send(newProduct);
+    await productServices.createProduct({ ...productData, owner: userId });
+    res.status(201).send({ message: "Product created successfully" });
   } catch (error) {
     res.status(400).send({ message: getErrorMessage(error) });
   }

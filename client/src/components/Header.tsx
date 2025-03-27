@@ -22,9 +22,6 @@ export default function Header() {
         </div>
         <ul className="flex row gap-4 font-bold text-lg items-center">
           <li>
-            <Link to="/about">About</Link>
-          </li>
-          <li>
             <Link to="/recipes">Recipes</Link>
           </li>
           {user ? (

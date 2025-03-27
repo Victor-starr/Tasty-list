@@ -5,6 +5,8 @@ import App from "./App.tsx";
 import Header from "./components/Header.tsx";
 import Footer from "./components/Footer.tsx";
 import AuthProvider from "./context/AuthProvider";
+import { NotificationProvider } from "./context/NotificationProvider";
+import Notification from "./components/Notfiication";
 
 import "./styles/index.scss";
 
@@ -12,9 +14,12 @@ createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <BrowserRouter>
       <AuthProvider>
-        <Header />
-        <App />
-        <Footer />
+        <NotificationProvider>
+          <Header />
+          <Notification />
+          <App />
+          <Footer />
+        </NotificationProvider>
       </AuthProvider>
     </BrowserRouter>
   </StrictMode>

@@ -1,11 +1,12 @@
 import { Link, useNavigate } from "react-router";
-import { UserDataFormType } from "../../types";
+import { UserDataFormType, ServerErrorMessage } from "../../types";
 import { useContext, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
+import { NotificationContext } from "../../context/NotificationContext";
 
 export default function Register() {
   const { register } = useContext(AuthContext);
-  const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const { showNotification } = useContext(NotificationContext);
   const [tempData, setTempData] = useState({
     username: "",
     email: "",
@@ -19,21 +20,16 @@ export default function Register() {
     const userData = formDataEntries as unknown as UserDataFormType;
 
     try {
-      setErrorMsg("");
       setTempData({
         username: userData.username,
         email: userData.email,
         password: "",
       });
-      await register(userData);
+      const res = await register(userData);
+      showNotification(res); // Show success notification
       navigate("/auth/login");
     } catch (err) {
-      if (err instanceof Error) {
-        setErrorMsg(err.message);
-        setTimeout(() => {
-          setErrorMsg("");
-        }, 4000);
-      }
+      showNotification(err as ServerErrorMessage); // Show error notification
     }
   };
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -84,10 +80,8 @@ export default function Register() {
               className="w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
             />
           </div>
-          {errorMsg && <div className="text-red-500">{errorMsg}</div>}
           <button
             type="submit"
-            disabled={errorMsg ? true : false}
             className="w-full px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 disabled:opacity-50"
           >
             Register
