@@ -67,7 +67,7 @@ catalogController.post("/create", isAuth, async (req, res) => {
   }
 });
 
-catalogController.post("/:id/recommend", isAuth, async (req, res) => {
+catalogController.put("/:id/recommend", isAuth, async (req, res) => {
   const productId = req.params.id;
   const userId = (req as any).user._id;
 

@@ -15,8 +15,17 @@ export default function Details() {
   const isUser = !!user;
   const isOwner = recipe?.owner.toString() === user?._id;
   const isRecommended = recipe?.recommendList.some(
-    (id) => id.toString() === user?._id
+    (recommendId) => recommendId.toString() === user?._id
   );
+
+  const addToRecommend = async () => {
+    try {
+      const res = await axiosInstance.put(`/catalog/${id}/recommend`);
+      showNotification(res);
+    } catch (err) {
+      showNotification(err as ServerErrorMessage);
+    }
+  };
 
   useEffect(() => {
     const fetchRecipe = async () => {
@@ -31,7 +40,7 @@ export default function Details() {
 
     fetchRecipe();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id]);
+  }, [id, addToRecommend]);
 
   return (
     <div className="flex flex-col items-center justify-center min-h-[calc(100vh-140px)] h-auto relative">
@@ -42,6 +51,7 @@ export default function Details() {
             isOwner={isOwner}
             isUser={isUser}
             isRecommended={!!isRecommended}
+            addToRecommend={addToRecommend}
           />
         ) : (
           <div className="flex flex-col items-center justify-center">

@@ -59,20 +59,20 @@ const remove = async (productId: string, userId: string) => {
 
 const recommend = async (productId: string, userId: string) => {
   if (!Types.ObjectId.isValid(productId) || !Types.ObjectId.isValid(userId)) {
-    throw new Error("Invalid ObjectId format");
+    throw new Error("Invalid product or user ID format.");
   }
 
   const product = await Product.findById(productId);
   if (!product) {
-    throw new Error("Product not found");
+    throw new Error("The product you are trying to recommend does not exist.");
   }
 
   if (product.owner?.toString() === userId) {
-    throw new Error("Cannot recommend your own product!");
+    throw new Error("You cannot recommend your own product.");
   }
 
   if (product.recommendList.some((id) => id.toString() === userId)) {
-    throw new Error("Already in recommended list!");
+    throw new Error("You have already recommended this product.");
   }
 
   product.recommendList.push(new Types.ObjectId(userId));
