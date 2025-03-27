@@ -78,6 +78,21 @@ const recommend = async (productId: string, userId: string) => {
   product.recommendList.push(new Types.ObjectId(userId));
   return product.save();
 };
+const search = async (query: string) => {
+  if (!query || query.trim() === "") {
+    throw new Error("Search query cannot be empty.");
+  }
+
+  const products = await Product.find({
+    $text: { $search: query },
+  }).sort({ score: { $meta: "textScore" } });
+
+  if (products.length === 0) {
+    return [];
+  }
+
+  return products;
+};
 
 const productServices = {
   getAll,
@@ -87,5 +102,6 @@ const productServices = {
   recommend,
   update,
   remove,
+  search,
 };
 export default productServices;

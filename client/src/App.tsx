@@ -10,12 +10,14 @@ import Catalog from "./pages/recipes/Catalog";
 import Create from "./pages/recipes/Create";
 import Details from "./pages/recipes/Details";
 import Edit from "./pages/recipes/Edit";
+import Search from "./pages/recipes/Search";
 
 const App = () => {
   return (
     <Routes>
       <Route index element={<Home />} />
       <Route path="*" element={<NotFound />} />
+      <Route path="/search" element={<Search />} />
       <Route path="/recipes">
         <Route index element={<Catalog />} />
         <Route path=":id" element={<Details />} />

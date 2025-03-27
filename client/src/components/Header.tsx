@@ -24,6 +24,9 @@ export default function Header() {
           <li>
             <Link to="/recipes">Recipes</Link>
           </li>
+          <li>
+            <Link to="/search">Search</Link>
+          </li>
           {user ? (
             <>
               <li>

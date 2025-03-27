@@ -79,4 +79,18 @@ catalogController.put("/:id/recommend", isAuth, async (req, res) => {
   }
 });
 
+catalogController.get("/search/:query", async (req, res) => {
+  const query = req.params.query;
+  try {
+    const products = await productServices.search(query);
+    if (products.length === 0) {
+      res.status(404).send({ message: "No products found" });
+    } else {
+      res.status(200).send({ message: "Here is The reults", products });
+    }
+  } catch (error) {
+    res.status(500).send({ message: getErrorMessage(error) });
+  }
+});
+
 export default catalogController;
