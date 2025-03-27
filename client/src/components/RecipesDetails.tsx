@@ -6,8 +6,8 @@ import { FaEdit } from "react-icons/fa";
 import { MdDelete, MdFavorite } from "react-icons/md";
 import { FaRegThumbsUp } from "react-icons/fa";
 import axiosInstance from "../axiosInstance";
-import { useContext, useState } from "react";
-import React from "react";
+import { IoMdReturnRight } from "react-icons/io";
+import React, { useContext, useState } from "react";
 
 interface RecipesDetailsProps {
   props: FullProductType;
@@ -136,6 +136,13 @@ const RecipesDetails: React.FC<RecipesDetailsProps> = ({
             )}
           </>
         )}
+        <button
+          className="text-xl font-bold text-white bg-violet-500 hover:bg-violet-600 py-2 px-4 rounded-md flex items-center justify-center shadow-md gap-2"
+          onClick={() => navigate("/recipes")}
+        >
+          <IoMdReturnRight className="text-2xl  text-center" />
+          Catalog
+        </button>
       </div>
     </div>
   );

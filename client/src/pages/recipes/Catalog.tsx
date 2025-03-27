@@ -37,9 +37,9 @@ export default function Catalog() {
         </Link>
       </div>
 
-      <section className="text-center w-full py-16 bg-white dark:bg-slate-950 flex flex-col items-center flex-grow">
+      <section className="text-center w-full py-16 bg-neutral-300 dark:bg-slate-950 flex flex-col items-center flex-grow">
         <h1 className="h1-title">Featured Recipes</h1>
-        <div className="flex flex-wrap justify-center gap-10 w-350">
+        <div className="flex flex-wrap justify-center gap-6 w-full px-4">
           {recipes.length > 0 ? (
             recipes.map((recipe) => <Recipes key={recipe._id} {...recipe} />)
           ) : (

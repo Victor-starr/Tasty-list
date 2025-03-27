@@ -43,7 +43,7 @@ function Edit() {
     try {
       const res = await axiosInstance.put(`/catalog/${id}`, productData);
       showNotification(res);
-      navigate("/recipes");
+      navigate(`/recipes/${id}`);
     } catch (error) {
       showNotification(error as ServerErrorMessage);
     }
