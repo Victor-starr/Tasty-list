@@ -26,10 +26,10 @@ export default function Register() {
         password: "",
       });
       const res = await register(userData);
-      showNotification(res); // Show success notification
+      showNotification(res);
       navigate("/auth/login");
     } catch (err) {
-      showNotification(err as ServerErrorMessage); // Show error notification
+      showNotification(err as ServerErrorMessage);
     }
   };
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {

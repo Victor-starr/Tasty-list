@@ -6,7 +6,7 @@ import axiosInstance from "../axiosInstance";
 const AuthProvider = ({ children }: { children: ReactNode }): JSX.Element => {
   const [user, setUser] = useState<UserDataFormType | null>(null);
   const [loading, setLoading] = useState(true);
-  const [justLoggedIn, setJustLoggedIn] = useState(false); // New flag
+  const [justLoggedIn, setJustLoggedIn] = useState(false);
 
   const checkAuth = async () => {
     try {
@@ -40,7 +40,7 @@ const AuthProvider = ({ children }: { children: ReactNode }): JSX.Element => {
       };
     }
     const res = await axiosInstance.post("/auth/login", userData);
-    setJustLoggedIn(true); // Set the flag to true after login
+    setJustLoggedIn(true);
     await checkAuth();
     return res;
   };
@@ -64,7 +64,7 @@ const AuthProvider = ({ children }: { children: ReactNode }): JSX.Element => {
   const logout = async (): Promise<ServerResponde> => {
     const res = await axiosInstance.post("/auth/logout", {});
     setUser(null);
-    setJustLoggedIn(false); // Reset the flag on logout
+    setJustLoggedIn(false);
     await checkAuth();
     return res;
   };

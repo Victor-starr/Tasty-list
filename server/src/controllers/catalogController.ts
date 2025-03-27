@@ -44,6 +44,18 @@ catalogController.delete("/:id", isAuth, async (req, res) => {
   }
 });
 
+catalogController.put("/:id", isAuth, async (req, res) => {
+  const productId = req.params.id;
+  const productData = req.body;
+  const userId = (req as any).user._id;
+  try {
+    await productServices.update(productId, userId, productData);
+    res.status(200).send({ message: "Product updated successfully" });
+  } catch (error) {
+    res.status(400).send({ message: getErrorMessage(error) });
+  }
+});
+
 catalogController.post("/create", isAuth, async (req, res) => {
   const productData = req.body;
   const userId = (req as any).user._id;

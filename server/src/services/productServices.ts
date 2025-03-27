@@ -31,7 +31,15 @@ const update = async (
   productData: ProductType
 ) => {
   const product = await getOneProduct(productId);
-
+  if (
+    productData.title === "" ||
+    productData.ingredients === "" ||
+    productData.instructions === "" ||
+    productData.description === "" ||
+    productData.image === ""
+  ) {
+    throw new Error("All fields are required");
+  }
   if (product?.owner.toString() !== userId) {
     throw new Error("Cannot update this recipe, you do not own it!");
   }

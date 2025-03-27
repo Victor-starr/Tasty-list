@@ -1,10 +1,11 @@
-import { useState, useContext } from "react";
+import { useContext, useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router";
 import { ProductType, ServerErrorMessage } from "../../types";
-import axiosInstance from "../../axiosInstance";
-import { useNavigate } from "react-router";
 import { NotificationContext } from "../../context/NotificationContext";
+import axiosInstance from "../../axiosInstance";
 
-export default function Create() {
+function Edit() {
+  const { id } = useParams();
   const [tempData, setTempData] = useState({
     title: "",
     ingredients: "",
@@ -15,11 +16,32 @@ export default function Create() {
   const navigate = useNavigate();
   const { showNotification } = useContext(NotificationContext);
 
+  useEffect(() => {
+    const fetchRecipe = async () => {
+      try {
+        const res = await axiosInstance.get(`/catalog/${id}`);
+        setTempData(res.data);
+      } catch (err) {
+        showNotification(err as ServerErrorMessage);
+        setTempData({
+          title: "",
+          ingredients: "",
+          instructions: "",
+          description: "",
+          image: "",
+        });
+      }
+    };
+
+    fetchRecipe();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id]);
+
   const formCreate = async (formData: FormData) => {
     const fromEntries = Object.fromEntries(formData);
     const productData = fromEntries as unknown as ProductType;
     try {
-      const res = await axiosInstance.post("/catalog/create", productData);
+      const res = await axiosInstance.put(`/catalog/${id}`, productData);
       showNotification(res);
       navigate("/recipes");
     } catch (error) {
@@ -33,13 +55,10 @@ export default function Create() {
     const { name, value } = e.target;
     setTempData((prev) => ({ ...prev, [name]: value }));
   };
-
   return (
     <div className="flex flex-col items-center justify-center min-h-[calc(100vh-140px)] h-auto">
       <div className="w-full max-w-md p-8 space-y-6 bg-white dark:bg-gray-800 rounded shadow-md text-black dark:text-white">
-        <h2 className="text-2xl font-bold text-center">
-          Create your own Recipe
-        </h2>
+        <h2 className="text-2xl font-bold text-center">Edit your Recipe</h2>
         <form className="space-y-4" action={formCreate}>
           <div>
             <label
@@ -125,7 +144,7 @@ export default function Create() {
               type="submit"
               className="w-full md:w-auto px-6 py-3 font-semibold text-white bg-blue-500 rounded-lg shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all"
             >
-              Create
+              Update
             </button>
             <button
               type="button"
@@ -140,3 +159,5 @@ export default function Create() {
     </div>
   );
 }
+
+export default Edit;

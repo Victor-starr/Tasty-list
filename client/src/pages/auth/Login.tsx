@@ -21,10 +21,10 @@ export default function Login() {
     try {
       setTempData({ email: userData.email, password: "", rePassword: "" });
       const res = await login(userData);
-      showNotification(res); // Show success notification
+      showNotification(res);
       navigate("/");
     } catch (err) {
-      showNotification(err as ServerErrorMessage); // Show error notification
+      showNotification(err as ServerErrorMessage);
     }
   };
 
