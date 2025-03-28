@@ -19,6 +19,14 @@ const useAuthAPI = () => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  const clearPasswords = () => {
+    setFormData((prev) => ({
+      ...prev,
+      password: "",
+      rePassword: "",
+    }));
+  };
+
   const handleLogin = async () => {
     try {
       const res = await login(formData as UserDataFormType);
@@ -26,6 +34,7 @@ const useAuthAPI = () => {
       navigate("/");
     } catch (err) {
       showNotification(err as ServerErrorMessage);
+      clearPasswords();
     }
   };
 
@@ -36,6 +45,7 @@ const useAuthAPI = () => {
       navigate("/auth/login");
     } catch (err) {
       showNotification(err as ServerErrorMessage);
+      clearPasswords();
     }
   };
 
