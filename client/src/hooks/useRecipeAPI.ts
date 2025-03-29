@@ -118,6 +118,14 @@ const useRecipeAPI = () => {
       showNotification(error as ServerErrorMessage);
     }
   };
+  const fetchLastThreeRecipes = async () => {
+    try {
+      const res = await axiosInstance.get("/catalog/last-three");
+      setRecipes(res.data);
+    } catch (error) {
+      showNotification(error as ServerErrorMessage);
+    }
+  };
 
   const addToRecommend = async (id: string) => {
     try {
@@ -141,6 +149,7 @@ const useRecipeAPI = () => {
     deleteRecipe,
     fetchAllRecipes,
     fetchRecipe,
+    fetchLastThreeRecipes,
     addToRecommend,
   };
 };

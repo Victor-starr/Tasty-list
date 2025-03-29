@@ -1,19 +1,14 @@
 import { Link } from "react-router";
-import axiosInstance from "../axiosInstance";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { ProductType } from "../types";
 import RecipesDefault from "../components/Recipe";
+import useRecipeAPI from "../hooks/useRecipeAPI";
 
 export default function Home() {
-  const [recipes, setRecipes] = useState<ProductType[]>([]);
-
-  const fetchData = async () => {
-    const res = await axiosInstance.get("/catalog/last-three");
-    setRecipes(res.data);
-  };
+  const { recipes, fetchLastThreeRecipes } = useRecipeAPI();
 
   useEffect(() => {
-    fetchData();
+    fetchLastThreeRecipes();
   }, []);
 
   return (
