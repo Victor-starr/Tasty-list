@@ -14,7 +14,7 @@ const SESSION_SECRET = process.env.SESSION_SECRET || "mysecret";
 
 app.use(
   cors({
-    origin: process.env.FRONTEND_URL, // frontend URL (default Vite port)
+    origin: process.env.FRONTEND_URL || "http://localhost:5173", // frontend URL (default Vite port)
     credentials: true,
   })
 );
