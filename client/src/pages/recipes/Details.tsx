@@ -5,7 +5,8 @@ import RecipesDetails from "../../components/RecipesDetails";
 import { AuthContext } from "../../context/AuthContext";
 
 export default function Details() {
-  const { recipe, fetchRecipe, addToRecommend } = useRecipeAPI();
+  const { recipe, fetchRecipe, addToRecommend, removeFromRecommend } =
+    useRecipeAPI();
   const { id } = useParams();
   const { user } = useContext(AuthContext);
   const [updateTrigger, setUpdateTrigger] = useState(false); // State to track updates
@@ -32,6 +33,13 @@ export default function Details() {
     setUpdateTrigger((prev) => !prev); // Toggle updateTrigger to refetch data
   };
 
+  const handleRemoveFromRecommend = async () => {
+    if (recipe) {
+      await removeFromRecommend(recipe._id);
+    }
+    setUpdateTrigger((prev) => !prev); // Toggle updateTrigger to refetch data
+  };
+
   return (
     <div className="flex flex-col items-center justify-center min-h-[calc(100vh-140px)] h-auto relative">
       <div className="flex justify-center py-5 text-center w-full">
@@ -42,6 +50,7 @@ export default function Details() {
             isUser={isUser}
             isRecommended={!!isRecommended}
             addToRecommend={handleAddToRecommend}
+            removeFromRecommend={handleRemoveFromRecommend}
           />
         ) : (
           <div className="flex flex-col items-center justify-center">

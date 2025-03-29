@@ -5,7 +5,7 @@ const ProductSchema = new Schema({
     type: String,
     required: [true, "Title is required"],
     minlength: [3, "Title must be at least 3 characters long"],
-    maxlength: [30, "Title must be at most 30 characters long"],
+    maxlength: [70, "Title must be at most 70 characters long"],
   },
   ingredients: {
     type: String,
@@ -17,13 +17,11 @@ const ProductSchema = new Schema({
     type: String,
     required: [true, "Instructions are required"],
     minlength: [10, "Description must be at least 10 characters long"],
-    maxlength: [100, "Description must be at most 100 characters long"],
   },
   description: {
     type: String,
     required: [true, "Description is required"],
     minlength: [10, "Description must be at least 10 characters long"],
-    maxlength: [100, "Description must be at most 100 characters long"],
   },
   image: {
     type: String,

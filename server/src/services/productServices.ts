@@ -78,6 +78,28 @@ const recommend = async (productId: string, userId: string) => {
   product.recommendList.push(new Types.ObjectId(userId));
   return product.save();
 };
+
+const unrecommend = async (productId: string, userId: string) => {
+  if (!Types.ObjectId.isValid(productId) || !Types.ObjectId.isValid(userId)) {
+    throw new Error("Invalid product or user ID format.");
+  }
+  const product = await Product.findById(productId);
+  if (!product) {
+    throw new Error(
+      "The product you are trying to unrecommend does not exist."
+    );
+  }
+  if (product.owner?.toString() === userId) {
+    throw new Error("You cannot unrecommend your own product.");
+  }
+  if (!product.recommendList.some((id) => id.toString() === userId)) {
+    throw new Error("You have not recommended this product yet.");
+  }
+  product.recommendList = product.recommendList.filter(
+    (id) => id.toString() !== userId
+  );
+  return product.save();
+};
 const search = async (query: string) => {
   if (!query || query.trim() === "") {
     throw new Error("Search query cannot be empty.");
@@ -100,6 +122,7 @@ const productServices = {
   getOneProduct,
   createProduct,
   recommend,
+  unrecommend,
   update,
   remove,
   search,

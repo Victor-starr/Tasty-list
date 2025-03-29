@@ -136,6 +136,15 @@ const useRecipeAPI = () => {
     }
   };
 
+  const removeFromRecommend = async (id: string) => {
+    try {
+      const res = await axiosInstance.put(`/catalog/${id}/unrecommend`);
+      showNotification(res);
+    } catch (err) {
+      showNotification(err as ServerErrorMessage);
+    }
+  };
+
   return {
     formData,
     recipes,
@@ -151,6 +160,7 @@ const useRecipeAPI = () => {
     fetchRecipe,
     fetchLastThreeRecipes,
     addToRecommend,
+    removeFromRecommend,
   };
 };
 

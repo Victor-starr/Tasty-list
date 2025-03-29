@@ -2,6 +2,7 @@ import { Link, useNavigate } from "react-router";
 import { FullProductType } from "../types";
 
 import { FaEdit } from "react-icons/fa";
+import { FaRegThumbsDown } from "react-icons/fa";
 import { MdDelete, MdFavorite } from "react-icons/md";
 import { FaRegThumbsUp } from "react-icons/fa";
 import { IoMdReturnRight } from "react-icons/io";
@@ -14,6 +15,7 @@ interface RecipesDetailsProps {
   isUser: boolean;
   isRecommended: boolean;
   addToRecommend: () => Promise<void>;
+  removeFromRecommend: () => Promise<void>;
 }
 
 const RecipesDetails: React.FC<RecipesDetailsProps> = ({
@@ -22,6 +24,7 @@ const RecipesDetails: React.FC<RecipesDetailsProps> = ({
   isUser,
   isRecommended,
   addToRecommend,
+  removeFromRecommend,
 }) => {
   const { deleteRecipe } = useRecipeAPI();
   const [confirmDel, setConfirmDel] = useState(false);
@@ -124,14 +127,17 @@ const RecipesDetails: React.FC<RecipesDetailsProps> = ({
               <button
                 className={`text-xl font-bold text-white ${
                   isRecommended
-                    ? "bg-gray-400 cursor-not-allowed"
+                    ? "bg-red-500 hover:bg-red-600"
                     : "bg-sky-500 hover:bg-yellow-500"
                 } py-2 px-4 rounded-md flex flex-row items-center justify-center gap-2 group`}
-                onClick={addToRecommend}
-                disabled={isRecommended}
+                onClick={isRecommended ? removeFromRecommend : addToRecommend}
               >
-                <FaRegThumbsUp className="text-1xl text-center group-hover:mb-1" />
-                {isRecommended ? "Recommended" : "Recommend"}
+                {isRecommended ? (
+                  <FaRegThumbsDown className="text-1xl text-center group-hover:mb-1" />
+                ) : (
+                  <FaRegThumbsUp className="text-1xl text-center group-hover:mb-1" />
+                )}
+                {isRecommended ? "Unrecommend" : "Recommend"}
               </button>
             )}
           </>

@@ -65,6 +65,7 @@ The app is designed to be **user-friendly, responsive, and secure**, making it i
 - **Authentication**: Secure user registration, login, and logout using JWT.
 - **Recipe Management**: CRUD operations for recipes.
 - **Recommendations**: Users can recommend recipes.
+- **Unrecommendations**: Users can remove their recommendations.
 - **Search**: Full-text search for recipes.
 - **Error Handling**: Centralized error handling for consistent API responses.
 

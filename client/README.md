@@ -31,7 +31,7 @@ TastyList provides an intuitive platform for users to browse, search, and manage
 ### Recipe Details
 
 - Shows recipe title, description, ingredients, instructions, and an image.
-- Logged-in users can recommend, edit, or delete their own recipes.
+- Logged-in users can recommend, unrecommend, edit, or delete their own recipes.
 
 ### Search
 

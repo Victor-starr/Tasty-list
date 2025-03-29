@@ -79,6 +79,18 @@ catalogController.put("/:id/recommend", isAuth, async (req, res) => {
   }
 });
 
+catalogController.put("/:id/unrecommend", isAuth, async (req, res) => {
+  const productId = req.params.id;
+  const userId = (req as any).user._id;
+
+  try {
+    await productServices.unrecommend(productId, userId);
+    res.status(200).send({ message: "Product unrecommended successfully" });
+  } catch (error) {
+    res.status(400).send({ message: getErrorMessage(error) });
+  }
+});
+
 catalogController.get("/search/:query", async (req, res) => {
   const query = req.params.query;
   try {
