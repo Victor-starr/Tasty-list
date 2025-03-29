@@ -9,9 +9,17 @@ const useRecipeAPI = () => {
     owner: string;
     recommendList: string[];
   };
-  const [formData, setFormData] = useState<Partial<ProductType>>({});
+
+  const [formData, setFormData] = useState<Partial<ProductType>>({
+    title: "",
+    ingredients: "",
+    instructions: "",
+    description: "",
+    image: "",
+  });
   const [recipes, setRecipes] = useState<ProductType[]>([]);
   const [recipe, setRecipe] = useState<ProductTypeFull | null>(null);
+  const [searchTerm, setSearchTerm] = useState("");
   const { showNotification } = useContext(NotificationContext);
   const navigate = useNavigate();
 
@@ -22,8 +30,42 @@ const useRecipeAPI = () => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  const handleSearchInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(e.target.value);
+  };
+
+  const searchForRecipe = async () => {
+    if (!searchTerm.trim()) return;
+
+    try {
+      const res = await axiosInstance.get(`/catalog/search/${searchTerm}`);
+      setRecipes(res.data.products);
+    } catch (err) {
+      setRecipes([]);
+      showNotification(err as ServerErrorMessage);
+    }
+  };
+
+  const validateRecipe = (formData: Partial<ProductType>): string | null => {
+    if (
+      !formData.title ||
+      !formData.ingredients ||
+      !formData.instructions ||
+      !formData.image ||
+      !formData.description
+    ) {
+      return "All fields are required";
+    }
+    return null;
+  };
+
   const createRecipe = async () => {
     try {
+      const hasEmptyFields = validateRecipe(formData);
+      if (hasEmptyFields) {
+        showNotification({ message: hasEmptyFields, status: 400 });
+        return;
+      }
       const res = await axiosInstance.post("/catalog/create", formData);
       showNotification(res);
       navigate("/recipes");
@@ -34,6 +76,11 @@ const useRecipeAPI = () => {
 
   const updateRecipe = async (id: string) => {
     try {
+      const hasEmptyFields = validateRecipe(formData);
+      if (hasEmptyFields) {
+        showNotification({ message: hasEmptyFields, status: 400 });
+        return;
+      }
       const res = await axiosInstance.put(`/catalog/${id}`, formData);
       showNotification(res);
       setFormData(res.data);
@@ -52,6 +99,7 @@ const useRecipeAPI = () => {
       showNotification(error as ServerErrorMessage);
     }
   };
+
   const fetchAllRecipes = async () => {
     try {
       const res = await axiosInstance.get("/catalog");
@@ -84,7 +132,10 @@ const useRecipeAPI = () => {
     formData,
     recipes,
     recipe,
+    searchTerm,
     handleInput,
+    handleSearchInput,
+    searchForRecipe,
     createRecipe,
     updateRecipe,
     deleteRecipe,

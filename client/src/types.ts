@@ -32,3 +32,7 @@ export type ServerResponde = {
   };
   status: number;
 };
+export type CustomNotification = {
+  message: string;
+  status: number;
+};

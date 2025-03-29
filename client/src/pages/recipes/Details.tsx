@@ -10,10 +10,14 @@ export default function Details() {
   const { user } = useContext(AuthContext);
   const [updateTrigger, setUpdateTrigger] = useState(false); // State to track updates
 
+  console.log(recipe);
   const isUser = !!user;
-  const isOwner = recipe?.owner.toString() === user?._id;
-  const isRecommended = recipe?.recommendList.some(
-    (recommendId) => recommendId.toString() === user?._id
+  const isOwner = !!(recipe && recipe?.owner.toString() === user?._id);
+  const isRecommended = !!(
+    recipe &&
+    recipe?.recommendList.some(
+      (recommendId) => recommendId.toString() === user?._id
+    )
   );
 
   useEffect(() => {

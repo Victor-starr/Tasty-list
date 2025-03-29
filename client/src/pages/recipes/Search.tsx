@@ -1,31 +1,9 @@
-import axiosInstance from "../../axiosInstance";
-import { useContext, useState } from "react";
-import { ProductType, ServerErrorMessage } from "../../types";
+import useRecipeAPI from "../../hooks/useRecipeAPI";
 import Recipes from "../../components/Recipe";
-import { NotificationContext } from "../../context/NotificationContext";
 
 export default function Search() {
-  const { showNotification } = useContext(NotificationContext);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [recipes, setRecipes] = useState<ProductType[]>([]);
-
-  const searchForRecipe = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    if (!searchTerm.trim()) return;
-
-    try {
-      const res = await axiosInstance.get(`/catalog/search/${searchTerm}`);
-      setRecipes(res.data.products);
-    } catch (err) {
-      setRecipes([]);
-      showNotification(err as ServerErrorMessage);
-    }
-  };
-
-  const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(e.target.value);
-  };
+  const { recipes, searchTerm, handleSearchInput, searchForRecipe } =
+    useRecipeAPI();
 
   return (
     <div className="flex flex-col items-center justify-center min-h-[calc(100vh-140px)] h-auto">
@@ -38,14 +16,17 @@ export default function Search() {
 
         <div className="mt-8">
           <form
-            onSubmit={searchForRecipe}
+            onSubmit={(e) => {
+              e.preventDefault();
+              searchForRecipe();
+            }}
             className="flex justify-center items-center gap-4"
           >
             <input
               type="text"
               name="search"
               value={searchTerm}
-              onChange={handleInput}
+              onChange={handleSearchInput}
               placeholder="Search for a recipe..."
               className="px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-slate-800 dark:text-white"
             />
@@ -59,7 +40,7 @@ export default function Search() {
         </div>
       </div>
 
-      <section className="text-center w-full py-16 bg-neutral-300 dark:bg-slate-950 flex flex-col items-center flex-grow">
+      <section className="text-center w-full py-16 bg-neutral-200 dark:bg-slate-950 flex flex-col items-center flex-grow">
         <h1 className="h1-title">Featured Recipes</h1>
         <div className="flex flex-wrap justify-center gap-6 w-full px-4">
           {recipes.length > 0 ? (

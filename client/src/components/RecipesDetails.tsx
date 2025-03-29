@@ -34,7 +34,7 @@ const RecipesDetails: React.FC<RecipesDetailsProps> = ({
   };
 
   return (
-    <div className="w-[70vw] max-w-[90vw] min-h-[32.5rem] bg-white rounded-md shadow-md p-5 dark:bg-gray-800 flex flex-col md:flex-row relative gap-4 overflow-hidden">
+    <div className="w-[70vw] max-w-[90vw] min-h-[32.5rem] bg-white rounded-md recipyShadow p-5 dark:bg-gray-800 flex flex-col md:flex-row relative gap-4 overflow-hidden">
       {confirmDel && (
         <div className="fixed inset-0 z-50 flex items-center justify-center seeThoughts">
           <div className="bg-white dark:bg-gray-800 p-6 rounded-md shadow-lg text-center">
@@ -76,18 +76,27 @@ const RecipesDetails: React.FC<RecipesDetailsProps> = ({
         </div>
       )}
 
-      <article className="flex-1 p-5 border border-gray-300 rounded-md shadow-md bg-gray-50 dark:bg-gray-700 overflow-auto max-h-[500px]">
+      <article className="flex-1 p-6 border border-gray-300 rounded-lg shadow-lg bg-gradient-to-b from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-700 overflow-auto max-h-[500px]">
         <h2 className="bg-sky-900 text-white font-bold text-3xl p-3 rounded-md mb-4 text-center">
           {props.title}
         </h2>
-        <p className="text-gray-700 dark:text-gray-300 text-lg mb-3">
-          <strong>Description:</strong> {props.description}
+        <p className="text-gray-800 dark:text-gray-200 text-lg mb-4 leading-relaxed">
+          <strong className="text-sky-700 dark:text-sky-400">
+            Description:
+          </strong>{" "}
+          {props.description}
         </p>
-        <p className="text-gray-700 dark:text-gray-300 text-lg mb-3">
-          <strong>Instructions:</strong> {props.instructions}
+        <p className="text-gray-800 dark:text-gray-200 text-lg mb-4 leading-relaxed">
+          <strong className="text-sky-700 dark:text-sky-400">
+            Instructions:
+          </strong>{" "}
+          {props.instructions}
         </p>
-        <p className="text-gray-700 dark:text-gray-300 text-lg">
-          <strong>Ingredients:</strong> {props.ingredients}
+        <p className="text-gray-800 dark:text-gray-200 text-lg leading-relaxed">
+          <strong className="text-sky-700 dark:text-sky-400">
+            Ingredients:
+          </strong>{" "}
+          {props.ingredients}
         </p>
       </article>
 
@@ -128,10 +137,10 @@ const RecipesDetails: React.FC<RecipesDetailsProps> = ({
           </>
         )}
         <button
-          className="text-xl font-bold text-white bg-violet-500 hover:bg-violet-600 py-2 px-4 rounded-md flex items-center justify-center shadow-md gap-2"
+          className="text-xl font-bold text-white bg-violet-500 hover:bg-violet-600 py-2 px-4 rounded-md flex items-center justify-center shadow-md gap-2 group"
           onClick={() => navigate("/recipes")}
         >
-          <IoMdReturnRight className="text-2xl  text-center" />
+          <IoMdReturnRight className="text-2xl  text-center group-hover:mb-1" />
           Catalog
         </button>
       </div>

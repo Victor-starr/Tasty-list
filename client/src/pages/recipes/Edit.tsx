@@ -8,10 +8,6 @@ function Edit() {
 
   const navigate = useNavigate();
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (id) updateRecipe(id);
-  };
   useEffect(() => {
     if (id) fetchRecipe(id);
   }, [id]);
@@ -20,7 +16,13 @@ function Edit() {
     <div className="flex flex-col items-center justify-center min-h-[calc(100vh-140px)] h-auto">
       <div className="w-full max-w-md p-8 space-y-6 bg-white dark:bg-gray-800 rounded shadow-md text-black dark:text-white">
         <h2 className="text-2xl font-bold text-center">Edit your Recipe</h2>
-        <form className="space-y-4" onSubmit={handleSubmit}>
+        <form
+          className="space-y-4"
+          onSubmit={(e) => {
+            e.preventDefault();
+            updateRecipe(id as string);
+          }}
+        >
           <div>
             <label
               htmlFor="title"

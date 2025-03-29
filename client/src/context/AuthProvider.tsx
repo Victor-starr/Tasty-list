@@ -31,12 +31,14 @@ const AuthProvider = ({ children }: { children: ReactNode }): JSX.Element => {
       userData.rePassword === ""
     ) {
       throw {
-        response: { status: 400, data: { message: "All fields are required" } },
+        message: "All fields are required",
+        status: 400,
       };
     }
     if (userData.password !== userData.rePassword) {
       throw {
-        response: { status: 400, data: { message: "Passwords do not match" } },
+        message: "Passwords do not match",
+        status: 400,
       };
     }
     const res = await axiosInstance.post("/auth/login", userData);
@@ -54,7 +56,8 @@ const AuthProvider = ({ children }: { children: ReactNode }): JSX.Element => {
       userData.password === ""
     ) {
       throw {
-        response: { status: 400, data: { message: "All fields are required" } },
+        message: "All fields are required",
+        status: 400,
       };
     }
     const res = await axiosInstance.post("/auth/register", userData);

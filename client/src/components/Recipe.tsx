@@ -6,7 +6,7 @@ const RecipesDefault = (props: ProductType) => {
   const isValidImage = /^https?:\/\//.test(props.image);
 
   return (
-    <div className="flex-grow max-w-[400px] w-full sm:w-[48%] lg:w-[30%] h-[32.5rem] bg-slate-100 rounded-md shadow-md p-5 dark:bg-gray-800 flex flex-col items-center relative">
+    <div className="flex-grow max-w-[400px] w-full sm:w-[48%] lg:w-[30%] h-[32.5rem] bg-slate-100 rounded-md recipyShadow p-5 dark:bg-gray-800 flex flex-col items-center relative">
       {isValidImage ? (
         <img
           className="w-full h-60 object-cover rounded-md mb-4 dark:bg-gray-700 bg-gray-50"
