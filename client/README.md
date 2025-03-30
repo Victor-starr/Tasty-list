@@ -174,7 +174,7 @@ TastyList provides an intuitive platform for users to browse, search, and manage
 3. Create a `.env` file in the client directory with the following variables:
 
 ```env
- VITE_API_URL=http://localhost:5000/api
+VITE_BACKEND_URL=http://localhost:5025
 ```
 
 4. Start the development server:
