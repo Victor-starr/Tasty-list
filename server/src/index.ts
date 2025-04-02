@@ -3,6 +3,7 @@ import cors from "cors";
 import mongoose from "mongoose";
 import cookieParser from "cookie-parser";
 import expressSession from "express-session";
+import MongoStore from "connect-mongo";
 import router from "./routes";
 import dotenv from "dotenv";
 dotenv.config();
@@ -25,11 +26,16 @@ app.use(
   expressSession({
     secret: SESSION_SECRET,
     resave: false,
-    saveUninitialized: true,
+    saveUninitialized: false,
+    store: MongoStore.create({
+      mongoUrl: MONGO_URI,
+      collectionName: "sessions",
+    }),
     cookie: {
-      secure: false,
+      sameSite: "none",
+      secure: true,
       httpOnly: true,
-      maxAge: 1000 * 60 * 60 * 24, // 24 hours in milliseconds
+      maxAge: 1000 * 60 * 60 * 24, // 24 hours
     },
   })
 );

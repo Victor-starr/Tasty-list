@@ -40,7 +40,11 @@ authController.post("/login", isGuest, (req, res) => {
   authServices
     .login(formData)
     .then((token) => {
-      res.cookie("auth", token, { httpOnly: true });
+      res.cookie("auth", token, {
+        httpOnly: true,
+        sameSite: "none",
+        secure: true,
+      });
       res.status(200).json({ message: "User logged in successfully" });
     })
     .catch((error) => {
@@ -57,7 +61,7 @@ authController.post("/login", isGuest, (req, res) => {
  * @security JWT
  */
 authController.post("/logout", isAuth, (req, res) => {
-  res.clearCookie("auth");
+  res.clearCookie("auth", { httpOnly: true, sameSite: "none", secure: true });
   res.status(200).json({ message: "User logged out successfully" });
 });
 
