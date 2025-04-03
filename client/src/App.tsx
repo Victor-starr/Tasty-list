@@ -11,6 +11,7 @@ import Create from "./pages/recipes/Create";
 import Details from "./pages/recipes/Details";
 import Edit from "./pages/recipes/Edit";
 import Search from "./pages/recipes/Search";
+import Favorites from "./pages/recipes/Favorites";
 
 const App = () => {
   return (
@@ -24,6 +25,7 @@ const App = () => {
       </Route>
       <Route element={<AuthGuard />}>
         <Route path="/recipes/create" element={<Create />} />
+        <Route path="/recipes/favorites" element={<Favorites />} />
         <Route path="/recipes/:id/edit" element={<Edit />} />
         <Route path="/auth/logout" element={<Logout />} />
       </Route>

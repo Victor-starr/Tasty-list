@@ -34,6 +34,7 @@ The backend serves as the backbone of the **TastyList** application, handling us
 - **Delete**: Authenticated users can delete their own recipes.
 - **Recommend**: Users can recommend recipes they like.
 - **Unrecommend**: Users can remove their recommendations.
+- **Favorites**: Users can view and manage their recommended recipes.
 
 ### Search
 
@@ -83,6 +84,7 @@ The backend serves as the backbone of the **TastyList** application, handling us
 - Recipes are stored in a MongoDB collection.
 - Users can only edit or delete recipes they own.
 - Recommendations are stored as an array of user IDs in each recipe document.
+- Favorites: Users can view and manage their recommended recipes.
 
 ### Search
 
@@ -116,6 +118,7 @@ The backend serves as the backbone of the **TastyList** application, handling us
 | DELETE | `/catalog/:id`             | Delete a recipe                | Yes       |
 | PUT    | `/catalog/:id/recommend`   | Recommend a recipe             | Yes       |
 | PUT    | `/catalog/:id/unrecommend` | Unrecommend a recipe           | Yes       |
+| GET    | `/catalog/favorites`       | Fetch all recommended recipes  | Yes       |
 | GET    | `/catalog/search/:query`   | Search recipes by query        | No        |
 
 ## Application Structure

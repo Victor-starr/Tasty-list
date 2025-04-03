@@ -14,12 +14,22 @@ catalogController.get("/", async (req, res) => {
   }
 });
 
-catalogController.get("/last-three", async (req, res) => {
+catalogController.get("/most-popular", async (req, res) => {
   try {
-    const products = await productServices.getLastThree();
+    const products = await productServices.getMostPopular();
     res.status(200).send(products);
   } catch (error) {
     res.status(500).send({ message: "Failed to fetch last three products" });
+  }
+});
+
+catalogController.get("/favorites", isAuth, async (req, res) => {
+  const userid = (req as any).user._id;
+  try {
+    const products = await productServices.getFavorites(userid);
+    res.status(200).send(products);
+  } catch (error) {
+    res.status(500).send({ message: getErrorMessage(error) });
   }
 });
 

@@ -118,9 +118,9 @@ const useRecipeAPI = () => {
       showNotification(error as ServerErrorMessage);
     }
   };
-  const fetchLastThreeRecipes = async () => {
+  const fetchMostPopularRecipes = async () => {
     try {
-      const res = await axiosInstance.get("/catalog/last-three");
+      const res = await axiosInstance.get("/catalog/most-popular");
       setRecipes(res.data);
     } catch (error) {
       showNotification(error as ServerErrorMessage);
@@ -144,6 +144,15 @@ const useRecipeAPI = () => {
       showNotification(err as ServerErrorMessage);
     }
   };
+  const fetchUserFavorites = async () => {
+    try {
+      const res = await axiosInstance.get("/catalog/favorites");
+      console.log(res.data);
+      setRecipes(res.data);
+    } catch (err) {
+      showNotification(err as ServerErrorMessage);
+    }
+  };
 
   return {
     formData,
@@ -158,9 +167,10 @@ const useRecipeAPI = () => {
     deleteRecipe,
     fetchAllRecipes,
     fetchRecipe,
-    fetchLastThreeRecipes,
+    fetchMostPopularRecipes,
     addToRecommend,
     removeFromRecommend,
+    fetchUserFavorites,
   };
 };
 

@@ -230,6 +230,4 @@ To begin working on the TastyList project, follow these steps to clone the repos
 
 ---
 
-## Folder Structure
-
 This documentation provides a **comprehensive guide** to understanding, setting up, and running the TastyList project. It is designed to help developers quickly get started and contribute effectively.

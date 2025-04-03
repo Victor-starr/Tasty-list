@@ -6,7 +6,10 @@ export default function Search() {
     useRecipeAPI();
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-[calc(100vh-140px)] h-auto">
+    <div
+      className="flex flex-col items-center justify-center min-h-[calc(100vh-140px)] h-auto"
+      data-page-context="search-page"
+    >
       <div className="py-16 text-center w-full">
         <h1 className="h1-title">Search for your Recipe</h1>
         <p className="text-slate-700 dark:text-slate-400 text-lg sm:text-xl max-w-2xl mx-auto">

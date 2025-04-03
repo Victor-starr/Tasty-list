@@ -5,10 +5,10 @@ import RecipesDefault from "../components/Recipe";
 import useRecipeAPI from "../hooks/useRecipeAPI";
 
 export default function Home() {
-  const { recipes, fetchLastThreeRecipes } = useRecipeAPI();
+  const { recipes, fetchMostPopularRecipes } = useRecipeAPI();
 
   useEffect(() => {
-    fetchLastThreeRecipes();
+    fetchMostPopularRecipes();
   }, []);
 
   return (
@@ -29,7 +29,7 @@ export default function Home() {
       </div>
 
       <section className="flex flex-col flex-grow text-center w-full py-16 bg-white dark:bg-slate-950 gap-10">
-        <h1 className="h1-title">Featured Recipes</h1>
+        <h1 className="h1-title">Most Popular Recipes</h1>
         <div className="flex flex-col md:flex-row items-center md:items-stretch flex-wrap justify-center gap-8">
           {recipes.length > 0 ? (
             recipes.map((recipe: ProductType) => (

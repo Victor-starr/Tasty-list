@@ -4,7 +4,8 @@ import { ProductType } from "../types";
 
 const getAll = async () => Product.find({});
 
-const getLastThree = async () => Product.find({}).sort({ _id: -1 }).limit(3);
+const getMostPopular = async () =>
+  Product.find({}).sort({ recommendList: -1 }).limit(4).sort({ createdAt: -1 });
 
 const getOneProduct = async (id: string) => Product.findById(id);
 
@@ -115,10 +116,21 @@ const search = async (query: string) => {
 
   return products;
 };
+const getFavorites = async (userId: string) => {
+  if (!Types.ObjectId.isValid(userId)) {
+    throw new Error("Invalid user ID format.");
+  }
+
+  const products = await Product.find({
+    recommendList: { $in: [new Types.ObjectId(userId)] },
+  });
+
+  return products;
+};
 
 const productServices = {
   getAll,
-  getLastThree,
+  getMostPopular,
   getOneProduct,
   createProduct,
   recommend,
@@ -126,5 +138,6 @@ const productServices = {
   update,
   remove,
   search,
+  getFavorites,
 };
 export default productServices;

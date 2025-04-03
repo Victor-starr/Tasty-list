@@ -21,7 +21,7 @@ TastyList provides an intuitive platform for users to browse, search, and manage
 ### Home Page
 
 - Displays a welcoming message.
-- Highlights the latest three featured recipes.
+- Highlights the most popular recipes.
 
 ### Recipe Catalog
 
@@ -32,6 +32,11 @@ TastyList provides an intuitive platform for users to browse, search, and manage
 
 - Shows recipe title, description, ingredients, instructions, and an image.
 - Logged-in users can recommend, unrecommend, edit, or delete their own recipes.
+
+### Favorites
+
+- Users can save their favorite recipes for quick access.
+- Displays a list of saved recipes.
 
 ### Search
 
@@ -116,6 +121,7 @@ TastyList provides an intuitive platform for users to browse, search, and manage
 - **Home** – Welcome message & featured recipes.
 - **Catalog** – Displays all available recipes.
 - **Details** – Shows full recipe information.
+- **Favorites** – Lists user’s favorite recipes.
 - **Search** – Allows users to find recipes.
 - **Auth** – Login, Register, and Logout pages.
 - **Create/Edit** – Forms for creating and modifying recipes.
