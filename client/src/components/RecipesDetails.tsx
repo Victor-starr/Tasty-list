@@ -28,8 +28,8 @@ const RecipesDetails: React.FC<RecipesDetailsProps> = ({
 }) => {
   const { deleteRecipe } = useRecipeAPI();
   const [confirmDel, setConfirmDel] = useState(false);
+  const [isValidImage, setIsValidImage] = useState(true);
   const navigate = useNavigate();
-  const isValidImage = /^https?:\/\//.test(props.image);
 
   const handleDelete = async () => {
     setConfirmDel(false);
@@ -72,6 +72,7 @@ const RecipesDetails: React.FC<RecipesDetailsProps> = ({
           className="w-full md:w-[50%] max-h-[500px] object-cover rounded-md mb-4 md:mb-0 dark:bg-gray-700 bg-gray-50"
           src={props.image}
           alt={props.title}
+          onError={() => setIsValidImage(false)}
         />
       ) : (
         <div className="w-full md:w-[50%] max-h-[500px] object-cover rounded-md mb-4 md:mb-0 dark:bg-gray-700 bg-gray-50 flex justify-center items-center">

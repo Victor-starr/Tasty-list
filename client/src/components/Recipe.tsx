@@ -1,9 +1,10 @@
 import { Link } from "react-router";
 import { FaReadme } from "react-icons/fa6";
 import { ProductType } from "../types";
+import { useState } from "react";
 
 const RecipesDefault = (props: ProductType) => {
-  const isValidImage = /^https?:\/\//.test(props.image);
+  const [isValidImage, setIsValidImage] = useState(true);
 
   return (
     <div className="flex-grow max-w-[400px] w-full sm:w-[48%] lg:w-[30%] h-[32.5rem] bg-slate-100 rounded-md recipyShadow p-5 dark:bg-gray-800 flex flex-col items-center relative">
@@ -12,6 +13,7 @@ const RecipesDefault = (props: ProductType) => {
           className="w-full h-60 object-cover rounded-md mb-4 dark:bg-gray-700 bg-gray-50"
           src={props.image}
           alt={props.title}
+          onError={() => setIsValidImage(false)}
         />
       ) : (
         <div className="w-full h-60 object-cover rounded-md mb-4 dark:bg-gray-700 bg-gray-50 flex items-center justify-center">

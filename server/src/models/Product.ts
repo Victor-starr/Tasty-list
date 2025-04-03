@@ -10,13 +10,13 @@ const ProductSchema = new Schema({
   ingredients: {
     type: String,
     required: [true, "Ingredients are required"],
-    minlength: [10, "Description must be at least 10 characters long"],
-    maxlength: [100, "Description must be at most 100 characters long"],
+    minlength: [10, "Ingredients must be at least 10 characters long"],
+    maxlength: [100, "Ingredients must be at most 100 characters long"],
   },
   instructions: {
     type: String,
     required: [true, "Instructions are required"],
-    minlength: [10, "Description must be at least 10 characters long"],
+    minlength: [10, "Instructions must be at least 10 characters long"],
   },
   description: {
     type: String,
@@ -26,7 +26,7 @@ const ProductSchema = new Schema({
   image: {
     type: String,
     required: [true, "Image is required"],
-    // match: [/^https?:\/\//, "Image must be a valid URL"],
+    match: [/^https?:\/\//, "Image must be a valid URL"],
   },
   recommendList: [
     {

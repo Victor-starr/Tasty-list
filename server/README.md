@@ -44,6 +44,7 @@ The backend serves as the backbone of the **TastyList** application, handling us
 
 - Centralized error handling for consistent API responses.
 - Validation for user input and database operations.
+- Validate image URLs to ensure they load correctly. Display a fallback UI for broken images.
 
 ## Technologies Used
 
