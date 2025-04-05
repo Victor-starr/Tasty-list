@@ -109,18 +109,20 @@ The backend serves as the backbone of the **TastyList** application, handling us
 
 ### Recipes
 
-| Method | Endpoint                   | Description                    | Protected |
-| ------ | -------------------------- | ------------------------------ | --------- |
-| GET    | `/catalog`                 | Fetch all recipes              | No        |
-| GET    | `/catalog/last-three`      | Fetch the latest three recipes | No        |
-| GET    | `/catalog/:id`             | Fetch a single recipe by ID    | No        |
-| POST   | `/catalog/create`          | Create a new recipe            | Yes       |
-| PUT    | `/catalog/:id`             | Update a recipe                | Yes       |
-| DELETE | `/catalog/:id`             | Delete a recipe                | Yes       |
-| PUT    | `/catalog/:id/recommend`   | Recommend a recipe             | Yes       |
-| PUT    | `/catalog/:id/unrecommend` | Unrecommend a recipe           | Yes       |
-| GET    | `/catalog/favorites`       | Fetch all recommended recipes  | Yes       |
-| GET    | `/catalog/search/:query`   | Search recipes by query        | No        |
+| Method | Endpoint                    | Description                       | Protected |
+| ------ | --------------------------- | --------------------------------- | --------- |
+| GET    | `/catalog`                  | Fetch all recipes                 | No        |
+| GET    | `/catalog/last-three`       | Fetch the latest three recipes    | No        |
+| GET    | `/catalog/:id`              | Fetch a single recipe by ID       | No        |
+| POST   | `/catalog/create`           | Create a new recipe               | Yes       |
+| PUT    | `/catalog/:id`              | Update a recipe                   | Yes       |
+| DELETE | `/catalog/:id`              | Delete a recipe                   | Yes       |
+| PUT    | `/catalog/:id/recommend`    | Recommend a recipe                | Yes       |
+| PUT    | `/catalog/:id/unrecommend`  | Unrecommend a recipe              | Yes       |
+| GET    | `/catalog/favorites`        | Fetch all recommended recipes     | Yes       |
+| GET    | `/catalog/search/:query`    | Search recipes by query           | No        |
+| GET    | `/catalog/user-recipes`     | fetch user recipes                | Yes       |
+| GET    | `/catalog/user-recom-count` | fetch user recipes recommendation | Yes       |
 
 ## Application Structure
 

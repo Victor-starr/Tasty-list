@@ -18,6 +18,8 @@ const useRecipeAPI = () => {
     image: "",
   });
   const [recipes, setRecipes] = useState<ProductType[]>([]);
+  const [recipesFav, setRecipesFav] = useState<ProductType[]>([]);
+  const [recomCount, setRecomCount] = useState(0);
   const [recipe, setRecipe] = useState<ProductTypeFull | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
   const { showNotification } = useContext(NotificationContext);
@@ -147,16 +149,37 @@ const useRecipeAPI = () => {
   const fetchUserFavorites = async () => {
     try {
       const res = await axiosInstance.get("/catalog/favorites");
-      console.log(res.data);
-      setRecipes(res.data);
+      setRecipesFav(res.data);
+      return res;
     } catch (err) {
       showNotification(err as ServerErrorMessage);
+    }
+    return null;
+  };
+
+  const fetchUserRecipes = async () => {
+    try {
+      const res = await axiosInstance.get("/catalog/user-recipes");
+      setRecipes(res.data);
+    } catch (error) {
+      showNotification(error as ServerErrorMessage);
+    }
+  };
+
+  const userRecommendationsCount = async () => {
+    try {
+      const res = await axiosInstance.get("/catalog/user-recom-count");
+      setRecomCount(res.data.count);
+    } catch (error) {
+      showNotification(error as ServerErrorMessage);
     }
   };
 
   return {
     formData,
     recipes,
+    recipesFav,
+    recomCount,
     recipe,
     searchTerm,
     handleInput,
@@ -171,6 +194,8 @@ const useRecipeAPI = () => {
     addToRecommend,
     removeFromRecommend,
     fetchUserFavorites,
+    fetchUserRecipes,
+    userRecommendationsCount,
   };
 };
 

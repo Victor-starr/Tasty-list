@@ -4,10 +4,25 @@ import { ProductType } from "../types";
 
 const getAll = async () => Product.find({});
 
+const getUserRecipes = async (userId: string) => {
+  if (!Types.ObjectId.isValid(userId)) {
+    throw new Error("Invalid user ID format.");
+  }
+  return Product.find({ owner: new Types.ObjectId(userId) });
+};
+
 const getMostPopular = async () =>
   Product.find({}).sort({ recommendList: -1 }).limit(4).sort({ createdAt: -1 });
 
 const getOneProduct = async (id: string) => Product.findById(id);
+
+const getUserRecommendationsCount = async (userId: string) => {
+  const products = await Product.find({ owner: userId });
+  const recommendations = products.reduce((acc, product) => {
+    return acc + product.recommendList.length;
+  }, 0);
+  return recommendations;
+};
 
 const createProduct = async (productData: ProductType) => {
   const { owner, ...rest } = productData;
@@ -130,14 +145,16 @@ const getFavorites = async (userId: string) => {
 
 const productServices = {
   getAll,
+  getUserRecipes,
   getMostPopular,
   getOneProduct,
+  getFavorites,
+  getUserRecommendationsCount,
   createProduct,
   recommend,
   unrecommend,
   update,
   remove,
   search,
-  getFavorites,
 };
 export default productServices;

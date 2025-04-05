@@ -32,6 +32,29 @@ catalogController.get("/favorites", isAuth, async (req, res) => {
     res.status(500).send({ message: getErrorMessage(error) });
   }
 });
+catalogController.get("/user-recipes", isAuth, async (req, res) => {
+  const userId = (req as any).user._id;
+
+  try {
+    const products = await productServices.getUserRecipes(userId);
+    if (products.length === 0) {
+      res.status(404).send({ message: "No products found" });
+    }
+    res.status(200).send(products);
+  } catch (error) {
+    res.status(500).send({ message: getErrorMessage(error) });
+  }
+});
+
+catalogController.get("/user-recom-count", isAuth, async (req, res) => {
+  const userId = (req as any).user._id;
+  try {
+    const count = await productServices.getUserRecommendationsCount(userId);
+    res.status(200).send({ count });
+  } catch (error) {
+    res.status(500).send({ message: getErrorMessage(error) });
+  }
+});
 
 catalogController.get("/:id", async (req, res) => {
   const { id } = req.params;

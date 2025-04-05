@@ -11,7 +11,6 @@ export default function Details() {
   const { user } = useContext(AuthContext);
   const [updateTrigger, setUpdateTrigger] = useState(false); // State to track updates
 
-  console.log(recipe);
   const isUser = !!user;
   const isOwner = !!(recipe && recipe?.owner.toString() === user?._id);
   const isRecommended = !!(

@@ -26,3 +26,11 @@ body {
 .recipyShadow {
   box-shadow: 0px 0px 17px 3px hsl(0deg 0% 0% / 15%);
 }
+
+.article-heading {
+  @apply text-[min(5vw,1.25rem)] md:text-[min(4vw,1.5rem)] font-bold;
+}
+
+.article-sub {
+  @apply text-[min(4vw,1rem)] md:text-[min(3.5vw,1.25rem)] font-normal;
+}

@@ -33,10 +33,10 @@ TastyList provides an intuitive platform for users to browse, search, and manage
 - Shows recipe title, description, ingredients, instructions, and an image.
 - Logged-in users can recommend, unrecommend, edit, or delete their own recipes.
 
-### Favorites
+### Profile Page
 
-- Users can save their favorite recipes for quick access.
-- Displays a list of saved recipes.
+- Displays user information.
+- Users can view their created recipes and favorites.
 
 ### Search
 
@@ -99,6 +99,13 @@ TastyList provides an intuitive platform for users to browse, search, and manage
 - Users can create, edit, and delete their own recipes.
 - Recipes are displayed as cards for easy browsing.
 
+## Profile Management
+
+- check if the user is logged in
+- Users can view their profile and manage their recipes.
+- The profile page displays user information and their created recipes.
+- Users can add recipes to their favorites.
+
 ### Search
 
 - Users input a search query.
@@ -121,7 +128,7 @@ TastyList provides an intuitive platform for users to browse, search, and manage
 - **Home** – Welcome message & featured recipes.
 - **Catalog** – Displays all available recipes.
 - **Details** – Shows full recipe information.
-- **Favorites** – Lists user’s favorite recipes.
+- **Profile** – User's profile with their recipes and favorites.
 - **Search** – Allows users to find recipes.
 - **Auth** – Login, Register, and Logout pages.
 - **Create/Edit** – Forms for creating and modifying recipes.
@@ -133,6 +140,7 @@ TastyList provides an intuitive platform for users to browse, search, and manage
 - **Notification** – Displays success/error messages.
 - **Recipe** – Reusable card component for recipes.
 - **RecipeDetails** – Shows a single recipe in detail.
+- **RecipesSection** - Displays a section of recipes (e.g., popular, favorites).
 
 ### Context
 

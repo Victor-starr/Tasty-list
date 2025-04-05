@@ -55,10 +55,10 @@ export default function Header() {
             {user ? (
               <>
                 <li>
-                  <Link to="/recipes/favorites">Favorites</Link>
+                  <Link to="/recipes/create">Create</Link>
                 </li>
                 <li>
-                  <Link to="/recipes/create">Create</Link>
+                  <Link to="/auth/profile">Profile</Link>
                 </li>
                 <li>
                   <Link to="/auth/logout">Logout</Link>

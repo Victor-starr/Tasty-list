@@ -37,7 +37,7 @@ const RecipesDetails: React.FC<RecipesDetailsProps> = ({
   };
 
   return (
-    <div className="w-[70vw] max-w-[90vw] min-h-[32.5rem] bg-white rounded-md recipyShadow p-5 dark:bg-gray-800 flex flex-col md:flex-row relative gap-4 overflow-hidden">
+    <div className="w-[90vw] md:w-[70vw] max-w-[90vw] min-h-[32.5rem] bg-white rounded-md recipyShadow p-5 dark:bg-gray-800 flex flex-col md:flex-row relative gap-4 overflow-hidden">
       {confirmDel && (
         <div className="fixed inset-0 z-50 flex items-center justify-center seeThoughts">
           <div className="bg-white dark:bg-gray-800 p-6 rounded-md shadow-lg text-center">
