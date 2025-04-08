@@ -37,9 +37,6 @@ catalogController.get("/user-recipes", isAuth, async (req, res) => {
 
   try {
     const products = await productServices.getUserRecipes(userId);
-    if (products.length === 0) {
-      res.status(404).send({ message: "No products found" });
-    }
     res.status(200).send(products);
   } catch (error) {
     res.status(500).send({ message: getErrorMessage(error) });
@@ -93,8 +90,11 @@ catalogController.post("/create", isAuth, async (req, res) => {
   const productData = req.body;
   const userId = (req as any).user._id;
   try {
-    await productServices.createProduct({ ...productData, owner: userId });
-    res.status(201).send({ message: "Product created successfully" });
+    const product = await productServices.createProduct({
+      ...productData,
+      owner: userId,
+    });
+    res.status(201).send({ message: "Product created successfully", product });
   } catch (error) {
     res.status(400).send({ message: getErrorMessage(error) });
   }

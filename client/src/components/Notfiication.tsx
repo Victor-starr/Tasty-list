@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { NotificationContext } from "../context/NotificationContext";
 import {
   MdCheckCircle,
@@ -11,6 +11,16 @@ import { FaRegCircleQuestion } from "react-icons/fa6";
 
 const Notification = () => {
   const { message, status } = useContext(NotificationContext);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    if (message && status) {
+      setIsVisible(true);
+      const timer = setTimeout(() => setIsVisible(false), 4000); // Hide after 4 seconds
+      return () => clearTimeout(timer);
+    }
+  }, [message, status]);
+
   if (!message || !status) return null;
 
   const getStyle = () => {
@@ -52,7 +62,11 @@ const Notification = () => {
   };
 
   return (
-    <div className={getStyle()}>
+    <div
+      className={`${getStyle()} ${
+        isVisible ? "animate-fade-in" : "animate-fade-out"
+      }`}
+    >
       {getIcon()}
       <span className="text-1.5xl">{message}</span>
     </div>

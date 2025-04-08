@@ -15,10 +15,10 @@ const RecipesSection = ({
   const [activeTab, setActiveTab] = useState("myRecipes");
 
   return (
-    <section className="flex flex-col flex-grow text-center w-full py-10 bg-stone-100 dark:bg-slate-900  gap-6">
-      <div className="flex flex-col md:flex-row justify-center gap-3 w-full px-10 md:px-25 lg:px-40">
+    <section className="flex flex-col flex-grow text-center w-full py-10 bg-neutral-200 dark:bg-slate-900  gap-6">
+      <div className="flex flex-col md:flex-row justify-center gap-5 w-full px-10 md:px-25 lg:px-40">
         <button
-          className={`flex-1 px-5 py-3 rounded-lg text-lg font-semibold transition-all ${
+          className={`flex-1 px-5 py-3 rounded-lg text-lg font-semibold transition-all  hover:scale-102 ${
             activeTab === "myRecipes"
               ? "bg-blue-600 text-white"
               : "bg-white dark:bg-slate-600 text-gray-700 dark:text-white"
@@ -28,9 +28,9 @@ const RecipesSection = ({
           My Recipes
         </button>
         <button
-          className={`flex-1 px-5 py-3 rounded-lg text-lg font-semibold transition-all ${
+          className={`flex-1 px-5 py-3 rounded-lg text-lg font-semibold transition-all  hover:scale-102 ${
             activeTab === "favorites"
-              ? "bg-blue-600 text-white"
+              ? "bg-blue-600 text-white hover:bg-blue-700"
               : "bg-white dark:bg-slate-600 text-gray-700 dark:text-white"
           }`}
           onClick={() => setActiveTab("favorites")}
@@ -55,7 +55,7 @@ const RecipesSection = ({
               delicious recipes today!
               <Link
                 to="/recipes"
-                className="text-lg sm:text-xl lg:text-2xl font-bold text-white bg-blue-500 hover:bg-blue-600 py-4 px-10 rounded-md inline-block mt-8"
+                className="text-lg sm:text-xl lg:text-2xl font-bold text-white bg-blue-500 hover:bg-blue-600 py-4 px-10 rounded-md inline-block mt-8  buttonHover"
               >
                 Explore
               </Link>
@@ -71,7 +71,7 @@ const RecipesSection = ({
             favorite recipes to this list!
             <Link
               to="/recipes"
-              className="text-lg sm:text-xl lg:text-2xl font-bold text-white bg-blue-500 hover:bg-blue-600 py-4 px-10 rounded-md inline-block mt-8"
+              className="text-lg sm:text-xl lg:text-2xl font-bold text-white bg-blue-500 hover:bg-blue-600 py-4 px-10 rounded-md inline-block mt-8  buttonHover"
             >
               Explore
             </Link>

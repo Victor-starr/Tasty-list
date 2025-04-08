@@ -7,7 +7,7 @@ export default function Search() {
 
   return (
     <div
-      className="flex flex-col items-center justify-center min-h-[calc(100vh-140px)] h-auto px-4"
+      className="flex flex-col items-center justify-center min-h-[calc(100vh-140px)] h-auto"
       data-page-context="search-page"
     >
       <div className="py-16 text-center w-full max-w-4xl">

@@ -7,6 +7,11 @@ interface AuthContextType {
   login: (userData: UserDataFormType) => Promise<ServerResponde>;
   register: (userData: UserDataFormType) => Promise<ServerResponde>;
   logout: () => Promise<ServerResponde>;
+  profileUpdate: (formData: FormData) => Promise<ServerResponde>;
+  profilePasswordUpdate: (
+    userData: UserDataFormType
+  ) => Promise<ServerResponde>;
+  profileDelete: () => Promise<ServerResponde>;
   justLoggedIn: boolean;
 }
 
@@ -16,6 +21,9 @@ const defaultAuthContext: AuthContextType = {
   login: async () => ({ data: { message: "" }, status: 200 }),
   register: async () => ({ data: { message: "" }, status: 200 }),
   logout: async () => ({ data: { message: "" }, status: 200 }),
+  profileUpdate: async () => ({ data: { message: "" }, status: 200 }),
+  profilePasswordUpdate: async () => ({ data: { message: "" }, status: 200 }),
+  profileDelete: async () => ({ data: { message: "" }, status: 200 }),
   justLoggedIn: false,
 };
 

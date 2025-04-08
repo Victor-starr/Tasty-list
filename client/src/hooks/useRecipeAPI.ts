@@ -70,7 +70,7 @@ const useRecipeAPI = () => {
       }
       const res = await axiosInstance.post("/catalog/create", formData);
       showNotification(res);
-      navigate("/recipes");
+      navigate("/recipes/" + res.data.product._id);
     } catch (error) {
       showNotification(error as ServerErrorMessage);
     }
@@ -96,7 +96,7 @@ const useRecipeAPI = () => {
     try {
       const res = await axiosInstance.delete(`/catalog/${id}`);
       showNotification(res);
-      navigate("/recipes");
+      navigate(-1);
     } catch (error) {
       showNotification(error as ServerErrorMessage);
     }

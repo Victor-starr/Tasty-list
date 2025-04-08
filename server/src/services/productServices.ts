@@ -27,11 +27,11 @@ const getUserRecommendationsCount = async (userId: string) => {
 const createProduct = async (productData: ProductType) => {
   const { owner, ...rest } = productData;
   if (
-    rest.title === "" ||
-    rest.ingredients === "" ||
-    rest.instructions === "" ||
-    rest.description === "" ||
-    rest.image === ""
+    !rest.title ||
+    !rest.ingredients ||
+    !rest.instructions ||
+    !rest.description ||
+    !rest.image
   ) {
     throw new Error("All fields are required");
   }
@@ -48,11 +48,11 @@ const update = async (
 ) => {
   const product = await getOneProduct(productId);
   if (
-    productData.title === "" ||
-    productData.ingredients === "" ||
-    productData.instructions === "" ||
-    productData.description === "" ||
-    productData.image === ""
+    !productData.title ||
+    !productData.ingredients ||
+    !productData.instructions ||
+    !productData.description ||
+    !productData.image
   ) {
     throw new Error("All fields are required");
   }

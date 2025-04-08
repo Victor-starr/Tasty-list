@@ -24,6 +24,7 @@ The backend serves as the backbone of the **TastyList** application, handling us
 - **Register**: Allows new users to create an account.
 - **Login**: Authenticates users and provides a secure session.
 - **Logout**: Clears the user's session.
+- **Profile**: Fetches user profile information.
 - **Session Validation**: Verifies if a user is logged in.
 
 ### Recipe Management
@@ -100,12 +101,14 @@ The backend serves as the backbone of the **TastyList** application, handling us
 
 ### Authentication
 
-| Method | Endpoint         | Description               | Protected |
-| ------ | ---------------- | ------------------------- | --------- |
-| POST   | `/auth/register` | Register a new user       | No        |
-| POST   | `/auth/login`    | Log in a user             | No        |
-| POST   | `/auth/logout`   | Log out the current user  | Yes       |
-| GET    | `/auth/check`    | Check user authentication | Yes       |
+| Method | Endpoint                    | Description               | Protected |
+| ------ | --------------------------- | ------------------------- | --------- |
+| POST   | `/auth/register`            | Register a new user       | No        |
+| POST   | `/auth/login`               | Log in a user             | No        |
+| POST   | `/auth/logout`              | Log out the current user  | Yes       |
+| GET    | `/auth/check`               | Check user authentication | Yes       |
+| PUT    | `/auth/profile-update`      | Updates user data         | Yes       |
+| PUT    | `/auth/profile-newpassword` | Updates user password     | Yes       |
 
 ### Recipes
 
@@ -128,7 +131,7 @@ The backend serves as the backbone of the **TastyList** application, handling us
 
 ### Controllers
 
-- **authController**: Handles user authentication (register, login, logout, session validation).
+- **authController**: Responsible for managing user authentication processes, including user registration, login, logout, session validation, and updating user information.
 - **catalogController**: Manages recipe-related operations (CRUD, search, recommendations).
 
 ### Services

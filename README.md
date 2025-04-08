@@ -59,10 +59,13 @@ The app is designed to be **user-friendly, responsive, and secure**, making it i
 - **Recipe Management**: Create, edit, and delete recipes.
 - **Dark Mode**: Toggle between light and dark themes.
 - **Notifications**: Success and error messages for user actions.
+- **Profile Page**: View and edit user profile information.
+- **Settings**: Change password and manage account settings.
 
 ### Backend Features
 
 - **Authentication**: Secure user registration, login, and logout using JWT.
+- **User Management**: Create, read, update and delete user profiles.
 - **Recipe Management**: CRUD operations for recipes.
 - **Recommendations**: Users can recommend recipes.
 - **Unrecommendations**: Users can remove their recommendations.
@@ -221,12 +224,14 @@ To begin working on the TastyList project, follow these steps to clone the repos
 
 ### Authentication
 
-| Method | Endpoint         | Description               | Protected |
-| ------ | ---------------- | ------------------------- | --------- |
-| POST   | `/auth/register` | Register a new user       | No        |
-| POST   | `/auth/login`    | Log in a user             | No        |
-| POST   | `/auth/logout`   | Log out the current user  | Yes       |
-| GET    | `/auth/check`    | Check user authentication | Yes       |
+| Method | Endpoint                    | Description               | Protected |
+| ------ | --------------------------- | ------------------------- | --------- |
+| POST   | `/auth/register`            | Register a new user       | No        |
+| POST   | `/auth/login`               | Log in a user             | No        |
+| POST   | `/auth/logout`              | Log out the current user  | Yes       |
+| GET    | `/auth/check`               | Check user authentication | Yes       |
+| PUT    | `/auth/profile-update`      | Update user profile       | Yes       |
+| PUT    | `/auth/profile-newpassword` | Change user password      | Yes       |
 
 ---
 

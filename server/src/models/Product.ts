@@ -11,7 +11,6 @@ const ProductSchema = new Schema({
     type: String,
     required: [true, "Ingredients are required"],
     minlength: [10, "Ingredients must be at least 10 characters long"],
-    maxlength: [100, "Ingredients must be at most 100 characters long"],
   },
   instructions: {
     type: String,

@@ -4,6 +4,7 @@ export interface FormUserState {
 }
 
 export interface UserFormState {
+  profilePicture?: string | Buffer;
   username: string;
   email: string;
   password: string;

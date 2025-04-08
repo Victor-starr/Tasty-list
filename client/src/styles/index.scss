@@ -34,3 +34,38 @@ body {
 .article-sub {
   @apply text-[min(4vw,1rem)] md:text-[min(3.5vw,1.25rem)] font-normal;
 }
+.buttonHover {
+  @apply hover:scale-105 transition-transform duration-200 ease-in-out;
+  @apply hover:shadow-lg hover:shadow-gray-500/50;
+  @apply dark:hover:shadow-gray-500/50;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+.animate-fade-out {
+  animation: fadeOut 0.5s ease-out forwards;
+}

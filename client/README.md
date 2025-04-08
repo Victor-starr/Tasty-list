@@ -37,6 +37,7 @@ TastyList provides an intuitive platform for users to browse, search, and manage
 
 - Displays user information.
 - Users can view their created recipes and favorites.
+- Users can edit their profile information.
 
 ### Search
 
@@ -131,7 +132,7 @@ TastyList provides an intuitive platform for users to browse, search, and manage
 - **Profile** – User's profile with their recipes and favorites.
 - **Search** – Allows users to find recipes.
 - **Auth** – Login, Register, and Logout pages.
-- **Create/Edit** – Forms for creating and modifying recipes.
+- **Create/Edit** – Forms for creating and modifying recipes. -**Settings** – User settings and profile management.
 
 ### Components
 

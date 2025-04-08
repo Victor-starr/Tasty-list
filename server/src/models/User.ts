@@ -18,10 +18,16 @@ const UserSchema = new Schema({
     minlength: [8, "Password must be at least 8 characters"],
     maxlength: [20, "Password must be at most 20 characters"],
   },
+  profilePicture: {
+    type: String,
+    default: null,
+  },
 });
 
 UserSchema.pre("save", async function (next) {
-  this.password = await bcrypt.hash(this.password, 10);
+  if (this.isModified("password")) {
+    this.password = await bcrypt.hash(this.password, 10);
+  }
   next();
 });
 const User = model("User", UserSchema);

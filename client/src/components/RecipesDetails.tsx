@@ -8,6 +8,7 @@ import { FaRegThumbsUp } from "react-icons/fa";
 import { IoMdReturnRight } from "react-icons/io";
 import React, { useState } from "react";
 import useRecipeAPI from "../hooks/useRecipeAPI";
+import ConfirmDeleteDialog from "./ConfirmDeleteDialog";
 
 interface RecipesDetailsProps {
   props: FullProductType;
@@ -38,29 +39,12 @@ const RecipesDetails: React.FC<RecipesDetailsProps> = ({
 
   return (
     <div className="w-[90vw] md:w-[70vw] max-w-[90vw] min-h-[32.5rem] bg-white rounded-md recipyShadow p-5 dark:bg-gray-800 flex flex-col md:flex-row relative gap-4 overflow-hidden">
-      {confirmDel && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center seeThoughts">
-          <div className="bg-white dark:bg-gray-800 p-6 rounded-md shadow-lg text-center">
-            <h3 className="text-2xl font-bold mb-4 text-gray-800 dark:text-gray-200">
-              Are you sure you want to delete this recipe?
-            </h3>
-            <div className="flex justify-center gap-4">
-              <button
-                className="text-lg font-bold text-white bg-gray-500 hover:bg-gray-600 py-2 px-4 rounded-md"
-                onClick={() => setConfirmDel(false)}
-              >
-                Cancel
-              </button>
-              <button
-                className="text-lg font-bold text-white bg-red-500 hover:bg-red-600 py-2 px-4 rounded-md"
-                onClick={handleDelete}
-              >
-                Delete
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+      <ConfirmDeleteDialog
+        isOpen={confirmDel}
+        onCancel={() => setConfirmDel(false)}
+        onConfirm={handleDelete}
+        message="Are you sure you want to delete this recipe?"
+      />
 
       <div className="text-xl font-bold text-white bg-sky-500 py-2 px-4 rounded-md flex flex-row items-center justify-center absolute top-6 left-6 shadow-md border border-white">
         <MdFavorite className="text-2xl text-center" />
@@ -145,10 +129,10 @@ const RecipesDetails: React.FC<RecipesDetailsProps> = ({
         )}
         <button
           className="text-xl font-bold text-white bg-violet-500 hover:bg-violet-600 py-2 px-4 rounded-md flex items-center justify-center shadow-md gap-2 group"
-          onClick={() => navigate("/recipes")}
+          onClick={() => navigate(-1)}
         >
           <IoMdReturnRight className="text-2xl  text-center group-hover:mb-1" />
-          Catalog
+          Back
         </button>
       </div>
     </div>

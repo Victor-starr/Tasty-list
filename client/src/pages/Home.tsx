@@ -22,7 +22,7 @@ export default function Home() {
         </p>
         <Link
           to="/recipes"
-          className="text-lg sm:text-xl lg:text-2xl font-bold text-white bg-sky-500 hover:bg-sky-600 py-3 px-6 rounded-md inline-block mt-8"
+          className="text-lg sm:text-xl lg:text-2xl font-bold text-white bg-sky-500 hover:bg-sky-600 py-3 px-6 rounded-md inline-block mt-8 buttonHover"
         >
           Explore Recipes
         </Link>

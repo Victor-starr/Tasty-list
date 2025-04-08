@@ -12,6 +12,7 @@ import Details from "./pages/recipes/Details";
 import Edit from "./pages/recipes/Edit";
 import Search from "./pages/recipes/Search";
 import Profile from "./pages/auth/Profile";
+import Settings from "./pages/auth/Settings";
 
 const App = () => {
   return (
@@ -27,6 +28,7 @@ const App = () => {
         <Route path="/recipes/create" element={<Create />} />
         <Route path="/recipes/:id/edit" element={<Edit />} />
         <Route path="/auth/profile" element={<Profile />} />
+        <Route path="/auth/settings" element={<Settings />} />
         <Route path="/auth/logout" element={<Logout />} />
       </Route>
       <Route element={<GuestGuard />}>

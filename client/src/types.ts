@@ -1,4 +1,5 @@
 export interface UserDataFormType {
+  profilePicture?: string | null | File;
   _id: string;
   username: string;
   email: string;

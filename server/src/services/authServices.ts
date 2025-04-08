@@ -3,6 +3,7 @@ import { UserFormState } from "../types";
 import bcrypt from "bcrypt";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import dotenv from "dotenv";
+import Product from "../models/Product";
 
 dotenv.config();
 
@@ -15,11 +16,7 @@ dotenv.config();
  * @returns {Promise<void>} A promise that resolves to the created user.
  */
 const register = async (userData: UserFormState): Promise<void> => {
-  if (
-    userData.username === "" ||
-    userData.email === "" ||
-    userData.password === ""
-  ) {
+  if (!userData.username || !userData.email || !userData.password) {
     throw new Error("All fields are required");
   }
   const isExisting = await User.findOne({ email: userData.email }).select({
@@ -43,11 +40,7 @@ const register = async (userData: UserFormState): Promise<void> => {
  * @returns {Promise<string | Error>} A promise that resolves to a JWT token if authentication is successful.
  */
 const login = async (userData: UserFormState): Promise<string | Error> => {
-  if (
-    userData.email === "" ||
-    userData.password === "" ||
-    userData.rePassword === ""
-  ) {
+  if (!userData.email || !userData.password || !userData.rePassword) {
     throw new Error("All fields are required");
   }
   if (userData.password !== userData.rePassword) {
@@ -63,7 +56,6 @@ const login = async (userData: UserFormState): Promise<string | Error> => {
   if (!user) {
     throw new Error("User does not exist");
   }
-
   const isValid = await bcrypt.compare(userData.password, user.password);
   if (!isValid) {
     throw new Error("Invalid password");
@@ -75,6 +67,63 @@ const login = async (userData: UserFormState): Promise<string | Error> => {
   });
 
   return token;
+};
+const updateProfile = async (userId: string, userData: UserFormState) => {
+  if (!userData.username || !userData.email) {
+    throw new Error("Username and email are required");
+  }
+
+  const user = await User.findById(userId);
+
+  if (!user) {
+    throw new Error("User not found");
+  }
+
+  user.username = userData.username;
+  user.email = userData.email;
+
+  if (userData.profilePicture) {
+    user.profilePicture = Buffer.isBuffer(userData.profilePicture)
+      ? userData.profilePicture.toString()
+      : userData.profilePicture;
+  }
+
+  await user.save({ validateModifiedOnly: true });
+
+  const token = generateToken({
+    _id: user._id.toString(),
+    email: user.email,
+    username: user.username,
+  });
+  return token;
+};
+
+const updatePassword = async (
+  userId: string,
+  userData: UserFormState
+): Promise<void> => {
+  if (!userData.password || !userData.rePassword) {
+    throw new Error("All fields are required");
+  }
+  if (userData.password !== userData.rePassword) {
+    throw new Error("Passwords do not match");
+  }
+  const user = await User.findById(userId);
+  if (!user) {
+    throw new Error("User not found");
+  }
+  user.password = userData.password;
+  await user.save({ validateModifiedOnly: true });
+};
+
+const getUserById = async (userId: string) => {
+  const user = await User.findById(userId).select(
+    "username email profilePicture"
+  );
+  if (!user) {
+    throw new Error("User not found");
+  }
+  return user;
 };
 
 /**
@@ -117,5 +166,28 @@ function verifyToken(token: string): JwtPayload | null {
   }
 }
 
-const authServices = { register, login, verifyToken };
+const deleteProfile = async (userId: string) => {
+  const user = await User.findById(userId);
+  if (!user) {
+    throw new Error("User not found");
+  }
+
+  await user.deleteOne();
+  await Product.deleteMany({ owner: userId });
+  await Product.updateMany(
+    { recommendList: userId },
+    { $pull: { recommendList: userId } }
+  );
+};
+
+const authServices = {
+  register,
+  login,
+  verifyToken,
+  updateProfile,
+  updatePassword,
+  getUserById,
+  deleteProfile,
+};
+
 export default authServices;
