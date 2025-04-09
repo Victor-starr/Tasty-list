@@ -1,5 +1,5 @@
-import { Navigate, Outlet } from "react-router";
 import { useContext, useEffect } from "react";
+import { Navigate, Outlet } from "react-router";
 import { AuthContext } from "../context/AuthContext";
 import { NotificationContext } from "../context/NotificationContext";
 

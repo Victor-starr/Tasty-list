@@ -1,9 +1,11 @@
+import { useContext, useEffect } from "react";
 import { Link } from "react-router";
-import { useEffect } from "react";
-import Recipes from "../../components/Recipe";
 import useRecipeAPI from "../../hooks/useRecipeAPI";
+import { AuthContext } from "../../context/AuthContext";
+import RecipesDefault from "../../components/Recipe";
 
 export default function Catalog() {
+  const { user } = useContext(AuthContext);
   const { recipes, fetchAllRecipes } = useRecipeAPI();
 
   useEffect(() => {
@@ -31,7 +33,16 @@ export default function Catalog() {
         <h1 className="h1-title">Featured Recipes</h1>
         <div className="flex flex-wrap justify-center gap-6 w-full px-4">
           {recipes.length > 0 ? (
-            recipes.map((recipe) => <Recipes key={recipe._id} {...recipe} />)
+            recipes.map((recipe) => {
+              const isRecom = recipe.recommendList.includes(user?._id || "");
+              return (
+                <RecipesDefault
+                  key={recipe._id}
+                  isRecom={isRecom}
+                  {...recipe}
+                />
+              );
+            })
           ) : (
             <p className="text-slate-600 dark:text-slate-400 text-lg sm:text-xl max-w-2xl mx-auto">
               No recipes found

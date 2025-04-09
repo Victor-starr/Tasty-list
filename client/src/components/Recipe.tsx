@@ -1,18 +1,27 @@
+import { useState } from "react";
 import { Link, useNavigate } from "react-router";
 import { FaReadme } from "react-icons/fa6";
+import { FaStar } from "react-icons/fa";
 import { ProductType } from "../types";
-import { useState } from "react";
 
-const RecipesDefault = (props: ProductType) => {
+const RecipesDefault = ({
+  isRecom,
+  ...props
+}: ProductType & { isRecom?: boolean }) => {
   const [isValidImage, setIsValidImage] = useState(true);
 
   const navigate = useNavigate();
 
   return (
     <div className="flex-grow max-w-[400px] w-full sm:w-[48%] lg:w-[30%] h-[32.5rem] bg-slate-100 rounded-md recipyShadow p-5 dark:bg-gray-800 flex flex-col items-center relative">
+      {isRecom && (
+        <div className="text-xl font-bold text-white bg-sky-500 py-2 px-4 rounded-md flex flex-row items-center justify-center absolute top-5 left-5 z-40 shadow-md border border-white hover:bg-amber-400 smallHover">
+          <FaStar className="text-2xl text-center" />
+        </div>
+      )}
       {isValidImage ? (
         <img
-          className="w-full h-60 object-cover rounded-md mb-4 dark:bg-gray-700 bg-gray-50 hover:scale-105 transition-transform duration-300 ease-in-out"
+          className="w-full h-60 object-cover rounded-md mb-4 dark:bg-gray-700 bg-gray-50 smallHover"
           src={props.image}
           alt={props.title}
           onError={() => setIsValidImage(false)}

@@ -1,7 +1,7 @@
 import { useState } from "react";
+import { Link } from "react-router";
 import RecipesDefault from "./Recipe";
 import { ProductType } from "../types";
-import { Link } from "react-router";
 
 interface RecipesSectionProps {
   recipes: ProductType[];

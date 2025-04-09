@@ -1,7 +1,10 @@
 import useRecipeAPI from "../../hooks/useRecipeAPI";
-import Recipes from "../../components/Recipe";
+import RecipesDefault from "../../components/Recipe";
+import { useContext } from "react";
+import { AuthContext } from "../../context/AuthContext";
 
 export default function Search() {
+  const { user } = useContext(AuthContext);
   const { recipes, searchTerm, handleSearchInput, searchForRecipe } =
     useRecipeAPI();
 
@@ -47,7 +50,18 @@ export default function Search() {
         <h1 className="h1-title">Featured Recipes</h1>
         <div className="flex flex-wrap justify-center gap-6 w-full px-4">
           {recipes.length > 0 ? (
-            recipes.map((recipe) => <Recipes key={recipe._id} {...recipe} />)
+            recipes.map((recipe) => {
+              const isRecommended = recipe.recommendList.includes(
+                user?._id || ""
+              );
+              return (
+                <RecipesDefault
+                  key={recipe._id}
+                  {...recipe}
+                  isRecom={isRecommended}
+                />
+              );
+            })
           ) : (
             <p className="text-slate-600 dark:text-slate-400 text-lg sm:text-xl max-w-2xl mx-auto">
               No recipes found

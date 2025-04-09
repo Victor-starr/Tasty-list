@@ -1,14 +1,13 @@
-import { Link, useNavigate } from "react-router";
-import { FullProductType } from "../types";
-
-import { FaEdit } from "react-icons/fa";
-import { FaRegThumbsDown } from "react-icons/fa";
-import { MdDelete, MdFavorite } from "react-icons/md";
-import { FaRegThumbsUp } from "react-icons/fa";
-import { IoMdReturnRight } from "react-icons/io";
 import React, { useState } from "react";
+import { Link, useNavigate } from "react-router";
+
+import { FaEdit, FaRegThumbsDown, FaRegThumbsUp } from "react-icons/fa";
+import { MdDelete, MdFavorite } from "react-icons/md";
+import { IoMdReturnRight } from "react-icons/io";
+
 import useRecipeAPI from "../hooks/useRecipeAPI";
 import ConfirmDeleteDialog from "./ConfirmDeleteDialog";
+import { FullProductType } from "../types";
 
 interface RecipesDetailsProps {
   props: FullProductType;
@@ -129,9 +128,15 @@ const RecipesDetails: React.FC<RecipesDetailsProps> = ({
         )}
         <button
           className="text-xl font-bold text-white bg-violet-500 hover:bg-violet-600 py-2 px-4 rounded-md flex items-center justify-center shadow-md gap-2 group"
-          onClick={() => navigate(-1)}
+          onClick={() => {
+            if (window.location.pathname !== "/recipes/create") {
+              navigate(-1);
+            } else {
+              navigate("/recipes");
+            }
+          }}
         >
-          <IoMdReturnRight className="text-2xl  text-center group-hover:mb-1" />
+          <IoMdReturnRight className="text-2xl text-center group-hover:mb-1" />
           Back
         </button>
       </div>

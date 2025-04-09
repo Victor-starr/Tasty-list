@@ -1,5 +1,4 @@
 import { Link } from "react-router";
-
 import useAuthAPI from "../../hooks/useAuthAPI";
 
 export default function Register() {

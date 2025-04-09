@@ -13,6 +13,7 @@ export interface ProductType {
   ingredients: string;
   instructions: string;
   description: string;
+  recommendList: string[];
   image: string;
 }
 export type FullProductType = ProductType & {

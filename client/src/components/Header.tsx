@@ -1,11 +1,10 @@
-import { Link, useLocation } from "react-router";
 import { useContext, useEffect, useState } from "react";
+import { Link, useLocation } from "react-router";
 import { AuthContext } from "../context/AuthContext";
 import useThemeToggle from "../hooks/useThemeToggle";
 import { MdSunny } from "react-icons/md";
-import { IoMdMoon } from "react-icons/io";
+import { IoMdMoon, IoMdClose } from "react-icons/io";
 import { GiHamburgerMenu } from "react-icons/gi";
-import { IoMdClose } from "react-icons/io";
 
 export default function Header() {
   const { user } = useContext(AuthContext);

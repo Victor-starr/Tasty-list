@@ -1,11 +1,12 @@
 import { Link } from "react-router";
-import { useEffect } from "react";
-import { ProductType } from "../types";
+import { useContext, useEffect } from "react";
 import RecipesDefault from "../components/Recipe";
 import useRecipeAPI from "../hooks/useRecipeAPI";
+import { AuthContext } from "../context/AuthContext";
 
 export default function Home() {
   const { recipes, fetchMostPopularRecipes } = useRecipeAPI();
+  const { user } = useContext(AuthContext);
 
   useEffect(() => {
     fetchMostPopularRecipes();
@@ -32,9 +33,18 @@ export default function Home() {
         <h1 className="h1-title">Most Popular Recipes</h1>
         <div className="flex flex-col md:flex-row items-center md:items-stretch flex-wrap justify-center gap-8">
           {recipes.length > 0 ? (
-            recipes.map((recipe: ProductType) => (
-              <RecipesDefault key={recipe._id} {...recipe} />
-            ))
+            recipes.map((recipe) => {
+              const isRecommended = recipe.recommendList.includes(
+                user?._id || ""
+              );
+              return (
+                <RecipesDefault
+                  key={recipe._id}
+                  {...recipe}
+                  isRecom={isRecommended}
+                />
+              );
+            })
           ) : (
             <p className="text-slate-600 dark:text-slate-400 text-2xl sm:text-3xl max-w-2xl mx-auto">
               No recipes found

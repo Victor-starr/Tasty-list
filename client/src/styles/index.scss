@@ -39,6 +39,11 @@ body {
   @apply hover:shadow-lg hover:shadow-gray-500/50;
   @apply dark:hover:shadow-gray-500/50;
 }
+.smallHover{
+  @apply hover:scale-102 transition-transform duration-200 ease-in-out;
+  @apply hover:shadow-lg hover:shadow-gray-500/50;
+  @apply dark:hover:shadow-gray-500/50;
+}
 
 @keyframes fadeIn {
   from {
