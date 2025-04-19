@@ -48,6 +48,7 @@ authController.post("/login", isGuest, (req: Request, res: Response) => {
         httpOnly: true,
         sameSite: "none",
         secure: true,
+        expires: new Date(Date.now() + 7 * 60 * 60 * 1000), // 7 hours
       });
       res.status(200).json({ message: "User logged in successfully" });
     })
@@ -124,6 +125,7 @@ authController.put(
         httpOnly: true,
         sameSite: "none",
         secure: true,
+        expires: new Date(Date.now() + 7 * 60 * 60 * 1000), // 7 hours
       });
       res.status(200).json({ message: "Profile updated successfully" });
     } catch (error) {

@@ -2,8 +2,6 @@ import express from "express";
 import cors from "cors";
 import mongoose from "mongoose";
 import cookieParser from "cookie-parser";
-import expressSession from "express-session";
-import MongoStore from "connect-mongo";
 import router from "./routes";
 import dotenv from "dotenv";
 dotenv.config();
@@ -23,23 +21,26 @@ app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ limit: "10mb", extended: true }));
 app.use(cookieParser());
 app.use(express.json());
-app.use(
-  expressSession({
-    secret: SESSION_SECRET,
-    resave: false,
-    saveUninitialized: false,
-    store: MongoStore.create({
-      mongoUrl: MONGO_URI,
-      collectionName: "sessions",
-    }),
-    cookie: {
-      sameSite: "none",
-      secure: true,
-      httpOnly: true,
-      maxAge: 1000 * 60 * 60 * 24, // 24 hours
-    },
-  })
-);
+
+// Commenting out express-session middleware as it is not being used and may cause conflicts
+// app.use(
+//   expressSession({
+//     secret: SESSION_SECRET,
+//     resave: false,
+//     saveUninitialized: false,
+//     store: MongoStore.create({
+//       mongoUrl: MONGO_URI,
+//       collectionName: "sessions",
+//     }),
+//     cookie: {
+//       sameSite: "none",
+//       secure: true,
+//       httpOnly: true,
+//       maxAge: 1000 * 60 * 60 * 24, // 24 hours
+//     },
+//   })
+// );
+
 app.use(router);
 
 const startServer = async () => {
