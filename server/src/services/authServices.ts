@@ -40,12 +40,10 @@ const register = async (userData: UserFormState): Promise<void> => {
  * @returns {Promise<string | Error>} A promise that resolves to a JWT token if authentication is successful.
  */
 const login = async (userData: UserFormState): Promise<string | Error> => {
-  if (!userData.email || !userData.password || !userData.rePassword) {
+  if (!userData.email || !userData.password) {
     throw new Error("All fields are required");
   }
-  if (userData.password !== userData.rePassword) {
-    throw new Error("Passwords do not match");
-  }
+
   const user = await User.findOne({ email: userData.email }).select({
     _id: true,
     password: true,

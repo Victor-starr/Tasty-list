@@ -24,15 +24,9 @@ const AuthProvider = ({ children }: { children: ReactNode }): JSX.Element => {
   }, []);
 
   const login = async (userData: UserDataFormType): Promise<ServerResponde> => {
-    if (!userData.email || !userData.password || !userData.rePassword) {
+    if (!userData.email || !userData.password) {
       throw {
         message: "All fields are required",
-        status: 400,
-      };
-    }
-    if (userData.password !== userData.rePassword) {
-      throw {
-        message: "Passwords do not match",
         status: 400,
       };
     }

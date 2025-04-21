@@ -9,7 +9,7 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 const MONGO_URI = process.env.MONGODB_URI || "";
-const SESSION_SECRET = process.env.SESSION_SECRET || "mysecret";
+// const SESSION_SECRET = process.env.SESSION_SECRET || "mysecret";
 
 app.use(
   cors({
