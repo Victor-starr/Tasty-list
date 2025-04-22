@@ -22,6 +22,7 @@ const useRecipeAPI = () => {
   const [recomCount, setRecomCount] = useState(0);
   const [recipe, setRecipe] = useState<ProductTypeFull | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
+  const [loading, setLoading] = useState(false);
   const { showNotification } = useContext(NotificationContext);
   const navigate = useNavigate();
 
@@ -40,11 +41,14 @@ const useRecipeAPI = () => {
     if (!searchTerm.trim()) return;
 
     try {
+      setLoading(true);
       const res = await axiosInstance.get(`/catalog/search/${searchTerm}`);
       setRecipes(res.data.products);
     } catch (err) {
       setRecipes([]);
       showNotification(err as ServerErrorMessage);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -104,28 +108,37 @@ const useRecipeAPI = () => {
 
   const fetchAllRecipes = async () => {
     try {
+      setLoading(true);
       const res = await axiosInstance.get("/catalog");
       setRecipes(res.data);
     } catch (error) {
       showNotification(error as ServerErrorMessage);
+    } finally {
+      setLoading(false);
     }
   };
 
   const fetchRecipe = async (id: string) => {
     try {
+      setLoading(true);
       const res = await axiosInstance.get(`/catalog/${id}`);
       setRecipe(res.data);
       setFormData(res.data);
     } catch (error) {
       showNotification(error as ServerErrorMessage);
+    } finally {
+      setLoading(false);
     }
   };
   const fetchMostPopularRecipes = async () => {
     try {
+      setLoading(true);
       const res = await axiosInstance.get("/catalog/most-popular");
       setRecipes(res.data);
     } catch (error) {
       showNotification(error as ServerErrorMessage);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -148,21 +161,27 @@ const useRecipeAPI = () => {
   };
   const fetchUserFavorites = async () => {
     try {
+      setLoading(true);
       const res = await axiosInstance.get("/catalog/favorites");
       setRecipesFav(res.data);
       return res;
     } catch (err) {
       showNotification(err as ServerErrorMessage);
+    } finally {
+      setLoading(false);
     }
     return null;
   };
 
   const fetchUserRecipes = async () => {
     try {
+      setLoading(true);
       const res = await axiosInstance.get("/catalog/user-recipes");
       setRecipes(res.data);
     } catch (error) {
       showNotification(error as ServerErrorMessage);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -176,6 +195,7 @@ const useRecipeAPI = () => {
   };
 
   return {
+    loading,
     formData,
     recipes,
     recipesFav,

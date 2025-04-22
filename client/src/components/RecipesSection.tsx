@@ -6,6 +6,7 @@ import { ProductType } from "../types";
 interface RecipesSectionProps {
   recipes: ProductType[];
   recipesFav: ProductType[];
+  isLoading: boolean;
 }
 
 const RecipesSection = ({
@@ -15,8 +16,8 @@ const RecipesSection = ({
   const [activeTab, setActiveTab] = useState("myRecipes");
 
   return (
-    <section className="flex flex-col flex-grow text-center w-full py-10 bg-neutral-200 dark:bg-slate-900  gap-6">
-      <div className="flex flex-col md:flex-row justify-center gap-5 w-full px-10 md:px-25 lg:px-40">
+    <section className="flex flex-col flex-grow gap-6 bg-neutral-200 dark:bg-slate-900 py-10 w-full text-center">
+      <div className="flex md:flex-row flex-col justify-center gap-5 px-10 md:px-25 lg:px-40 w-full">
         <button
           className={`flex-1 px-5 py-3 rounded-lg text-lg font-semibold transition-all  hover:scale-102 ${
             activeTab === "myRecipes"
@@ -43,19 +44,19 @@ const RecipesSection = ({
         {activeTab === "myRecipes" ? "My Recipes" : "My Favorites"}
       </h1>
 
-      <div className="flex flex-col md:flex-row items-center md:items-stretch flex-wrap justify-center gap-6 min-h-[55vh] h-auto">
+      <div className="flex md:flex-row flex-col flex-wrap justify-center items-center md:items-stretch gap-6 h-auto min-h-[55vh]">
         {activeTab === "myRecipes" ? (
           recipes.length > 0 ? (
             recipes.map((recipe) => (
               <RecipesDefault key={recipe._id} {...recipe} />
             ))
           ) : (
-            <p className="text-slate-600 dark:text-slate-400 text-2xl  md:text-3xl max-w-2xl mx-auto flex flex-col items-center justify-center">
+            <p className="flex flex-col justify-center items-center mx-auto max-w-2xl text-slate-600 dark:text-slate-400 text-2xl md:text-3xl">
               You haven't added any recipes yet. Start creating your own
               delicious recipes today!
               <Link
                 to="/recipes"
-                className="text-lg sm:text-xl lg:text-2xl font-bold text-white bg-blue-500 hover:bg-blue-600 py-4 px-10 rounded-md inline-block mt-8  buttonHover"
+                className="inline-block bg-blue-500 hover:bg-blue-600 mt-8 px-10 py-4 rounded-md font-bold text-white text-lg sm:text-xl lg:text-2xl buttonHover"
               >
                 Explore
               </Link>
@@ -66,12 +67,12 @@ const RecipesSection = ({
             <RecipesDefault key={recipe._id} {...recipe} />
           ))
         ) : (
-          <p className="text-slate-600 dark:text-slate-400 text-2xl md:text-3xl  max-w-2xl mx-auto flex flex-col items-center justify-center">
+          <p className="flex flex-col justify-center items-center mx-auto max-w-2xl text-slate-600 dark:text-slate-400 text-2xl md:text-3xl">
             You haven't added any favorite recipes yet. Explore and add your
             favorite recipes to this list!
             <Link
               to="/recipes"
-              className="text-lg sm:text-xl lg:text-2xl font-bold text-white bg-blue-500 hover:bg-blue-600 py-4 px-10 rounded-md inline-block mt-8  buttonHover"
+              className="inline-block bg-blue-500 hover:bg-blue-600 mt-8 px-10 py-4 rounded-md font-bold text-white text-lg sm:text-xl lg:text-2xl buttonHover"
             >
               Explore
             </Link>

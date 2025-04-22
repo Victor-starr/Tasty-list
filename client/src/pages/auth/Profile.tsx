@@ -10,6 +10,7 @@ export default function Profile() {
   const [invalidImage, setInvalidImage] = useState(false);
   const { user } = useContext(AuthContext);
   const {
+    loading,
     recipes,
     recipesFav,
     recomCount,
@@ -27,23 +28,23 @@ export default function Profile() {
   const navigate = useNavigate();
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-[calc(100vh-140px)] h-auto">
-      <div className="py-16 text-center w-full flex flex-col md:flex-row items-center justify-center gap-10 rounded-lg shadow-lg p-6 dark:bg-gray-950">
+    <div className="flex flex-col justify-center items-center h-auto min-h-[calc(100vh-140px)]">
+      <div className="flex md:flex-row flex-col justify-center items-center gap-10 dark:bg-gray-950 shadow-lg p-6 py-16 rounded-lg w-full text-center">
         {!invalidImage && user?.profilePicture ? (
           <img
             src={user?.profilePicture as string}
             alt="userImage"
-            className="size-[min(25vw,100px)] md:size-[180px] rounded-full object-cover border-4 border-gray-300 dark:border-gray-700"
+            className="border-4 border-gray-300 dark:border-gray-700 rounded-full size-[min(25vw,100px)] md:size-[180px] object-cover"
             onClick={() => navigate("/auth/settings")}
             onError={() => setInvalidImage(true)}
           />
         ) : (
           <CgProfile
-            className="text-slate-700 dark:text-slate-300 size-[min(25vw,100px)] md:size-[180px] rounded-full"
+            className="rounded-full size-[min(25vw,100px)] md:size-[180px] text-slate-700 dark:text-slate-300"
             onClick={() => navigate("/auth/settings")}
           />
         )}
-        <article className="flex flex-col items-start justify-center gap-4 text-gray-700 dark:text-gray-200 max-h-[300px]">
+        <article className="flex flex-col justify-center items-start gap-4 max-h-[300px] text-gray-700 dark:text-gray-200">
           <h1 className="article-heading">
             UserName: <span className="article-sub">{user?.username}</span>
           </h1>
@@ -64,14 +65,18 @@ export default function Profile() {
           </p>
           <Link
             to="/auth/settings"
-            className="flex items-center gap-2 text-lg lg:text-xl font-bold text-white bg-sky-500  py-3 px-6 rounded-md mt-3 buttonHover"
+            className="flex items-center gap-2 bg-sky-500 mt-3 px-6 py-3 rounded-md font-bold text-white text-lg lg:text-xl buttonHover"
           >
             <IoSettingsSharp className="text-2xl" />
             Settings
           </Link>
         </article>
       </div>
-      <RecipesSection recipes={recipes} recipesFav={recipesFav} />
+      <RecipesSection
+        recipes={recipes}
+        recipesFav={recipesFav}
+        isLoading={loading}
+      />
     </div>
   );
 }
