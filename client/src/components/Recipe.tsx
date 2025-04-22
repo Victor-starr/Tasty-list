@@ -61,10 +61,8 @@ export const RecipeLoading = () => {
       <div className="flex justify-center items-center bg-gray-50 dark:bg-gray-700 mb-4 rounded-md w-full h-60 object-cover animate-pulse"></div>
 
       <article className="mx-auto mb-5 w-full max-w-sm">
-        <h2 className="bg-gray-50 dark:bg-gray-700 mb-2 p-2 rounded-md h-8 font-bold text-gray-50 dark:text-gray-700 text-xl animate-pulse w-[80%]">
-        </h2>
-        <p className="bg-gray-50 dark:bg-gray-700 rounded-md h-6 text-gray-50 dark:text-gray-700 text-lg animate-pulse w-[50%]">
-        </p>
+        <h2 className="bg-gray-50 dark:bg-gray-700 mb-2 p-2 rounded-md w-[80%] h-8 font-bold text-gray-50 dark:text-gray-700 text-xl animate-pulse"></h2>
+        <p className="bg-gray-50 dark:bg-gray-700 rounded-md w-[50%] h-6 text-gray-50 dark:text-gray-700 text-lg animate-pulse"></p>
       </article>
 
       <div className="bottom-5 absolute flex justify-center items-center gap-5">

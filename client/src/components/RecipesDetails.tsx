@@ -37,7 +37,7 @@ const RecipesDetails: React.FC<RecipesDetailsProps> = ({
   };
 
   return (
-    <div className="w-[90vw] md:w-[70vw] max-w-[90vw] min-h-[32.5rem] bg-white rounded-md recipyShadow p-5 dark:bg-gray-800 flex flex-col md:flex-row relative gap-4 overflow-hidden">
+    <div className="relative flex md:flex-row flex-col gap-4 bg-white dark:bg-gray-800 p-5 rounded-md w-[90vw] md:w-[70vw] max-w-[90vw] min-h-[32.5rem] overflow-hidden recipyShadow">
       <ConfirmDeleteDialog
         isOpen={confirmDel}
         onCancel={() => setConfirmDel(false)}
@@ -45,35 +45,35 @@ const RecipesDetails: React.FC<RecipesDetailsProps> = ({
         message="Are you sure you want to delete this recipe?"
       />
 
-      <div className="text-xl font-bold text-white bg-sky-500 py-2 px-4 rounded-md flex flex-row items-center justify-center absolute top-6 left-6 shadow-md border border-white">
+      <div className="top-6 left-6 absolute flex flex-row justify-center items-center bg-sky-500 shadow-md px-4 py-2 border border-white rounded-md font-bold text-white text-xl">
         <MdFavorite className="text-2xl text-center" />
         {props.recommendList.length}
       </div>
 
       {isValidImage ? (
         <img
-          className="w-full md:w-[50%] max-h-[500px] object-cover rounded-md mb-4 md:mb-0 dark:bg-gray-700 bg-gray-50"
+          className="bg-gray-50 dark:bg-gray-700 mb-4 md:mb-0 rounded-md w-full md:w-[50%] max-h-[500px] object-cover"
           src={props.image}
           alt={props.title}
           onError={() => setIsValidImage(false)}
         />
       ) : (
-        <div className="w-full md:w-[50%] max-h-[500px] object-cover rounded-md mb-4 md:mb-0 dark:bg-gray-700 bg-gray-50 flex justify-center items-center">
+        <div className="flex justify-center items-center bg-gray-50 dark:bg-gray-700 mb-4 md:mb-0 rounded-md w-full md:w-[50%] max-h-[500px] object-cover">
           <span className="text-gray-500 dark:text-gray-400">No Image</span>
         </div>
       )}
 
-      <article className="flex-1 p-6 border border-gray-300 rounded-lg shadow-lg bg-gradient-to-b from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-700 overflow-auto max-h-[500px]">
-        <h2 className="bg-sky-900 text-white font-bold text-3xl p-3 rounded-md mb-4 text-center">
+      <article className="flex-1 bg-gradient-to-b from-gray-50 dark:from-gray-800 to-gray-100 dark:to-gray-700 shadow-lg p-6 border border-gray-300 rounded-lg max-h-[500px] overflow-auto">
+        <h2 className="bg-sky-900 mb-4 p-3 rounded-md font-bold text-white text-3xl text-center">
           {props.title}
         </h2>
-        <p className="text-gray-800 dark:text-gray-200 text-lg mb-4 leading-relaxed">
+        <p className="mb-4 text-gray-800 dark:text-gray-200 text-lg leading-relaxed">
           <strong className="text-sky-700 dark:text-sky-400">
             Description:
           </strong>{" "}
           {props.description}
         </p>
-        <p className="text-gray-800 dark:text-gray-200 text-lg mb-4 leading-relaxed">
+        <p className="mb-4 text-gray-800 dark:text-gray-200 text-lg leading-relaxed">
           <strong className="text-sky-700 dark:text-sky-400">
             Instructions:
           </strong>{" "}
@@ -87,23 +87,23 @@ const RecipesDetails: React.FC<RecipesDetailsProps> = ({
         </p>
       </article>
 
-      <div className="flex flex-wrap md:flex-nowrap gap-5 items-center justify-center md:absolute bottom-8 right-10">
+      <div className="right-10 bottom-8 md:absolute flex flex-wrap md:flex-nowrap justify-center items-center gap-5">
         {isUser && (
           <>
             {isOwner ? (
               <>
                 <Link
-                  className="text-xl font-bold text-white bg-sky-500 hover:bg-green-600 py-2 px-4 rounded-md flex flex-row items-center justify-center gap-2 group"
+                  className="group flex flex-row justify-center items-center gap-2 bg-sky-500 hover:bg-green-600 px-4 py-2 rounded-md font-bold text-white text-xl"
                   to={`/recipes/${props._id}/edit`}
                 >
-                  <FaEdit className="text-1xl group-hover:mb-2" />
+                  <FaEdit className="group-hover:mb-2 text-1xl" />
                   Edit
                 </Link>
                 <button
-                  className="text-xl font-bold text-white bg-sky-500 hover:bg-red-600 py-2 px-4 rounded-md flex flex-row items-center justify-center gap-2 group"
+                  className="group flex flex-row justify-center items-center gap-2 bg-sky-500 hover:bg-red-600 px-4 py-2 rounded-md font-bold text-white text-xl"
                   onClick={() => setConfirmDel(true)}
                 >
-                  <MdDelete className="text-1xl group-hover:mb-2" />
+                  <MdDelete className="group-hover:mb-2 text-1xl" />
                   Delete
                 </button>
               </>
@@ -117,9 +117,9 @@ const RecipesDetails: React.FC<RecipesDetailsProps> = ({
                 onClick={isRecommended ? removeFromRecommend : addToRecommend}
               >
                 {isRecommended ? (
-                  <FaRegThumbsDown className="text-1xl text-center group-hover:mb-1" />
+                  <FaRegThumbsDown className="group-hover:mb-1 text-1xl text-center" />
                 ) : (
-                  <FaRegThumbsUp className="text-1xl text-center group-hover:mb-1" />
+                  <FaRegThumbsUp className="group-hover:mb-1 text-1xl text-center" />
                 )}
                 {isRecommended ? "Unrecommend" : "Recommend"}
               </button>
@@ -127,7 +127,7 @@ const RecipesDetails: React.FC<RecipesDetailsProps> = ({
           </>
         )}
         <button
-          className="text-xl font-bold text-white bg-violet-500 hover:bg-violet-600 py-2 px-4 rounded-md flex items-center justify-center shadow-md gap-2 group"
+          className="group flex justify-center items-center gap-2 bg-violet-500 hover:bg-violet-600 shadow-md px-4 py-2 rounded-md font-bold text-white text-xl"
           onClick={() => {
             if (window.location.pathname !== "/recipes/create") {
               navigate(-1);
@@ -136,7 +136,40 @@ const RecipesDetails: React.FC<RecipesDetailsProps> = ({
             }
           }}
         >
-          <IoMdReturnRight className="text-2xl text-center group-hover:mb-1" />
+          <IoMdReturnRight className="group-hover:mb-1 text-2xl text-center" />
+          Back
+        </button>
+      </div>
+    </div>
+  );
+};
+
+export const RecipesDetailsLoading = () => {
+  const navigate = useNavigate();
+  return (
+    <div className="relative flex md:flex-row flex-col gap-4 bg-white dark:bg-gray-800 p-5 rounded-md w-[90vw] md:w-[70vw] max-w-[90vw] min-h-[32.5rem] overflow-hidden recipyShadow">
+      <div className="top-6 left-6 absolute flex flex-row justify-center items-center bg-sky-500 shadow-md px-4 py-2 border border-white rounded-md w-[56px] min-h-[35px]">
+        <MdFavorite className="text-white text-2xl text-center" />
+      </div>
+      <div className="flex justify-center items-center bg-gray-200 dark:bg-gray-700 mb-4 md:mb-0 rounded-md w-full md:w-[50%] max-h-[500px] object-cover animate-pulse"></div>
+      <article className="flex flex-col flex-1 items-center bg-gradient-to-b from-gray-50 dark:from-gray-800 to-gray-100 dark:to-gray-700 shadow-lg p-6 border border-gray-300 rounded-lg max-h-[500px] overflow-auto">
+        <h2 className="bg-gray-200 dark:bg-gray-600 mb-4 p-3 rounded-md w-full h-[56px] animate-pulse"></h2>
+        <p className="bg-gray-200 dark:bg-gray-600 mb-4 rounded-md w-[80%] h-[60px] animate-pulse"></p>
+        <p className="bg-gray-200 dark:bg-gray-600 mb-4 rounded-md w-[80%] h-[70px] animate-pulse"></p>
+        <p className="bg-gray-200 dark:bg-gray-600 mb-4 rounded-md w-[80%] h-[100px] animate-pulse"></p>
+      </article>
+      <div className="right-10 bottom-8 md:absolute flex flex-wrap md:flex-nowrap justify-center items-center gap-5">
+        <button
+          className="group flex justify-center items-center gap-2 bg-violet-500 hover:bg-violet-600 shadow-md px-4 py-2 rounded-md font-bold text-white text-xl"
+          onClick={() => {
+            if (window.location.pathname !== "/recipes/create") {
+              navigate(-1);
+            } else {
+              navigate("/recipes");
+            }
+          }}
+        >
+          <IoMdReturnRight className="group-hover:mb-1 text-2xl text-center" />
           Back
         </button>
       </div>
