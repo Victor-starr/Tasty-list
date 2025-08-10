@@ -1,5 +1,6 @@
 import { Router, Request, Response } from "express";
 import { getErrorMessage } from "../utils/errorHandler";
+import { getCookieConfig, getClearCookieConfig } from "../utils/cookieConfig";
 import authServices from "../services/authServices";
 import { isAuth, isGuest } from "../middlewares/authMiddleware";
 import handleMulterErrors from "../middlewares/uploadMiddleware";
@@ -44,17 +45,11 @@ authController.post("/login", isGuest, (req: Request, res: Response) => {
   authServices
     .login(formData)
     .then((token) => {
-      res.cookie("auth", token, {
-        httpOnly: true,
-        sameSite: "none",
-        secure: true,
-        expires: new Date(Date.now() + 7 * 60 * 60 * 1000), // 7 hours
-      });
+      res.cookie("auth", token, getCookieConfig());
       res.status(200).json({ message: "User logged in successfully" });
     })
     .catch((error) => {
-      const errorMessage = getErrorMessage(error);
-      res.status(400).json({ message: errorMessage });
+      res.status(400).json({ message: getErrorMessage(error) });
     });
 });
 
@@ -66,7 +61,7 @@ authController.post("/login", isGuest, (req: Request, res: Response) => {
  * @security JWT
  */
 authController.post("/logout", isAuth, (req: Request, res: Response) => {
-  res.clearCookie("auth", { httpOnly: true, sameSite: "none", secure: true });
+  res.clearCookie("auth", getClearCookieConfig());
   res.status(200).json({ message: "User logged out successfully" });
 });
 

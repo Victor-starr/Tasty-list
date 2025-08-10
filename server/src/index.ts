@@ -7,40 +7,25 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 5000;
-const MONGO_URI = process.env.MONGODB_URI || "";
-// const SESSION_SECRET = process.env.SESSION_SECRET || "mysecret";
+
+const PORT = process.env.PORT;
+const MONGO_URI = process.env.MONGODB_URI;
+const FRONTEND_URL = process.env.FRONTEND_URL;
+
+if (!PORT || !MONGO_URI || !FRONTEND_URL) {
+  throw new Error("Missing required environment variables.");
+}
 
 app.use(
   cors({
-    origin: process.env.FRONTEND_URL || "http://localhost:5173", // frontend URL (default Vite port)
+    origin: FRONTEND_URL,
     credentials: true,
+    optionsSuccessStatus: 200,
   })
 );
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ limit: "10mb", extended: true }));
 app.use(cookieParser());
-app.use(express.json());
-
-// Commenting out express-session middleware as it is not being used and may cause conflicts
-// app.use(
-//   expressSession({
-//     secret: SESSION_SECRET,
-//     resave: false,
-//     saveUninitialized: false,
-//     store: MongoStore.create({
-//       mongoUrl: MONGO_URI,
-//       collectionName: "sessions",
-//     }),
-//     cookie: {
-//       sameSite: "none",
-//       secure: true,
-//       httpOnly: true,
-//       maxAge: 1000 * 60 * 60 * 24, // 24 hours
-//     },
-//   })
-// );
-
 app.use(router);
 
 const startServer = async () => {
@@ -49,10 +34,12 @@ const startServer = async () => {
     console.log("Connected to MongoDB...");
 
     app.listen(PORT, () => {
-      console.log(`Server is running on http://localhost:${PORT}`);
+      console.log(`Server is running on port ${PORT}`);
     });
   } catch (err) {
     console.error("Failed to connect to MongoDB...", err);
+    process.exit(1);
   }
 };
+
 startServer();
